@@ -1,6 +1,6 @@
-# dishout
+# dishout.io
 
-> dishout
+> dishout.io using nuxt
 
 ## Build Setup
 

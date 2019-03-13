@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="page">
         <img class="bg--image" src="~/assets/bg.jpeg"/>
          <Card>
             <h3>{{restaurant.name}}</h3>
@@ -31,7 +31,8 @@
     </div>
      
      <div style="margin-top: 5vh;">
-     <Card dis-hover>
+     <nuxt-link to="../item/:id" class="itemtab">
+     <Card dis-hover :bordered="false">
          <Row class="row--justify">
             <Col span="14">
             <h4>Hamburger</h4>
@@ -41,8 +42,9 @@
                 <img src="~/assets/burger.png" alt="burger" class="item--img">
             </Col>
          </Row>
-        </Card>
-        <Card dis-hover style="margin-top: 2vh;">
+        </Card><Divider />
+        </nuxt-link>
+        <Card dis-hover style="margin-top: 2vh;" :bordered="false">
          <Row class="row--justify">
             <Col span="14">
             <h4>Pizza</h4>
@@ -52,9 +54,9 @@
                 <img src="~/assets/pizza.png" alt="burger" class="item--img">
             </Col>
          </Row>
+        </Card><Divider />
         </Card>
-        </Card>
-        <Card dis-hover style="margin-top: 2vh;">
+        <Card dis-hover style="margin-top: 2vh;" :bordered="false">
          <Row class="row--justify">
             <Col span="14">
             <h4>French fries</h4>
@@ -66,11 +68,16 @@
          </Row>
         </Card>
         </div>
+        <cart />
     </div>
 </template>
 
 <script>
+import cart from '@/components/cart.vue'
 export default {
+    components:{
+        cart
+    },
     data(){
         return {
             menuTiming: '',
@@ -93,6 +100,9 @@ export default {
 }
 </script>
 <style scoped>
+.page{
+    max-width: 100vw;
+}
 .bg--image{
     width: 100%;
     max-height: 30vh;
@@ -129,6 +139,9 @@ export default {
 }
 .item--img{
     width: 100px;
+}
+.itemtab{
+    color: #515a6e;
 }
 </style>
 
