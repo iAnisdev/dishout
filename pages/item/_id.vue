@@ -49,9 +49,11 @@
                         <CheckboxGroup class="none" v-model="size" size="large">
                             <Checkbox>
                                 <span>Luttuce</span>
+                                 <span class="price"></span>
                             </Checkbox>
                             <Checkbox>
                                 <span>Tomato</span>
+                                 <span class="price"></span>
                             </Checkbox>
                         </CheckboxGroup>
                         </div>
@@ -85,6 +87,7 @@ export default {
     text-align: center;
 }
 .bg--image{
+    width: 100%;
     max-height: 30vh;
 }
 .content{

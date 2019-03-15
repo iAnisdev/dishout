@@ -1,6 +1,6 @@
 <template>
     <div class="page">
-        <img class="bg--image" src="~/assets/bg.jpeg"/>
+        <img class="bg--image" src="https://vinta-cms.s3.amazonaws.com/media/filer_public/2e/64/2e642aa4-2856-4bba-a2cf-330879eef793/django_rest_framework.png"/>
          <Card>
             <h3>{{restaurant.name}}</h3>
             <Row class="row">

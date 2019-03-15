@@ -1,57 +1,100 @@
 <template>
-  <section class="container">
-    <div>
-      <logo />
-      <h1 class="title">
-        dishout.io
-      </h1>
-      <h2 class="subtitle">
-        Welcome to the iView + Nuxt.js template
-      </h2>
-      <div class="links">
-        <Button type="primary" target="_blank" to="https://nuxtjs.org/">Documentation</Button>
-        <Button target="_blank" to="https://github.com/nuxt/nuxt.js">GitHub</Button>
-        <Button target="_blank" to="https://www.iviewui.com/">iView</Button>
-      </div>
+  <section class="">
+    <Menu mode="horizontal" :theme="'light'" active-name="1">
+      <span class="container--row">
+        <h4>Deats</h4>
+        <a href="" >Login with Facebook</a>
+      </span>
+    </Menu>
+    <div class="content">
+        <div  v-for="(rest , index) in restList" :key='index'>
+         <nuxt-link :to="`../restaurant/${rest.id}`" class="itemtab">
+            <div class="rest">
+            <img class="bg--image" :src="rest.banner_img_url"/>
+            <Card :bordered="false">
+            <h3>{{rest.name}}</h3>
+              <p class="text-justify">{{rest.description}}</p>
+          </Card>
+          </div>
+         </nuxt-link>
+        </div>
     </div>
+    <footer class="footer">
+          <h4>
+            © 2019. All Rights Reserved.
+            <a href="mailto:mgild@deats.com">Contact Us</a>
+          </h4>
+  </footer>
   </section>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
+
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
-  components: {
-    Logo
+  data() {
+    return {
+    }
+  },
+  computed: {
+     ...mapGetters({
+        restList: 'restList'
+    })
+  },
+   methods: {
+    ...mapActions({
+      getAllRest: 'getAllRest'
+    }),
+  },
+  mounted(){
+    this.getAllRest()
   }
 }
 </script>
 
 <style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
+.ivu-menu{
+  background-color: #f8f9fa;
+}
+.container--row{
+  padding: 0vh 5vw  0vh 5vw;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  flex-direction: row;
+  justify-content: space-between;
 }
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
+.content{
+  min-height: 90vh;
+  width: 100%;
+  padding: 0px 20px 10px 20px;
+  background-color: #eee;;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
+.rest{
+  margin-top: 10px;
+  border-radius: 10px;
 }
-.links {
-  padding-top: 15px;
+.ivu-card{
+    top: -1vh;
+    border-radius: 0px 0px 5px 5px;
+}
+.bg--image{
+    width: 100%;
+    max-height: 30vh;
+    border-radius: 5px 5px 0px 0px ;
+}
+.itemtab{
+    color: #515a6e;
+}
+.footer{
+   bottom:0;
+   padding: 5px;
+   background-color: #fff;
+   width:100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
 </style>
