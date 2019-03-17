@@ -6,7 +6,8 @@ const defaultState = {
   cart: [],
   order: {
     Menu: ''
-  }
+  },
+  rest: ''
 }
 
 const inBrowser = typeof window !== 'undefined';

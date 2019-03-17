@@ -15,5 +15,6 @@ export default {
         return total
     },
     getOrder: state => state.order,
-    getOrderMenu: state => state.order.Menu
+    getOrderMenu: state => state.order.Menu,
+    getOrderRest: state => state.rest
 }

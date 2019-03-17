@@ -66,7 +66,8 @@ export default {
             cart: 'getCart',
             cartPrice: 'cartPrice',
             cartSize: 'cartSize',
-            orderMenu: 'getOrderMenu'
+            orderMenu: 'getOrderMenu',
+            getOrderRest: 'getOrderRest'
         }),
 
     show(){
@@ -80,16 +81,21 @@ export default {
             clearItem: 'clearItem',
             updateCart: 'updateCart',
             setMenu: 'setMenu',
-            clearCart: 'clearCart'
+            clearCart: 'clearCart',
+            setMenuRest: 'setMenuRest'
         }),
         addtoCart(item) {
             let that = this
+            let menu_id = this.$route.query.menu
+            let restaurant = this.$route.query.restaurant
+            console.log(restaurant)
             if (item.radio_option_groups.length > 0 && that.modifier == '') {
                 this.$Message.error(`Please ${item.radio_option_groups[0].description} first`);
             } else {
-               if(that.orderMenu == '' || that.orderMenu == that.item.menu_group){
+               if(that.orderMenu == '' || that.orderMenu == menu_id){
                    if(that.orderMenu == ''){
-                       that.setMenu(that.item.menu_group)
+                       that.setMenu(menu_id)
+                       that.setMenuRest(restaurant)
                    }
                     let selected_item = {
                     id: item.id,
@@ -129,8 +135,9 @@ export default {
                     cancelText: 'Cancel',
                     loading: true,
                     onOk: () => {
-                        that.setMenu(that.item.menu_group)
                         that.clearCart()
+                        that.setMenu(menu_id)
+                        that.setMenuRest(restaurant)
                         that.addtoCart(item)
                         this.$Modal.remove()
                     },

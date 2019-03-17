@@ -29,12 +29,12 @@
            <Tabs >
         <TabPane v-for="group in menu.groups" :key="group.id" :label="group.name">
             <div v-for="item in group.items" :key="item.id">
-                        <nuxt-link :to="`../item/${item.id}`" class="itemtab">
+                        <nuxt-link :to="`../item/${item.id}?restaurant=${loadRest.name}&menu=${menu.id}`" class="itemtab">
                            <Card dis-hover :bordered="false">
                               <Row class="row--justify">
                                  <Col span="12">
                                  <h4>{{item.name}}</h4>
-                                 <p style="margin-top: 1px; text-align: justify">{{item.description}}</p>
+                                 <p style="margin-top: 1px; textalign: justify">{{item.description}}</p>
                                  </Col>
                                  <Col span="4">
                                  </Col>

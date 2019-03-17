@@ -13,5 +13,8 @@ export default {
     },
     setMenu: ({commit} , data) => {
         commit('set_menu' , data)
+    },
+    setMenuRest: ({commit} , data) => {
+        commit('set_menu_rest' , data)
     }
 }
