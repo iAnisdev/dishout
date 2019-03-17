@@ -26,44 +26,45 @@
             -->
       </Card>
       <div class="container" v-for="menu in loadRest.menus" :key="menu.owner">
-           <Tabs >
-        <TabPane v-for="group in menu.groups" :key="group.id" :label="group.name">
-            <div v-for="item in group.items" :key="item.id">
-                        <nuxt-link :to="`../item/${item.id}?restaurant=${loadRest.name}&menu=${menu.id}`" class="itemtab">
-                           <Card dis-hover :bordered="false">
-                              <Row class="row--justify">
-                                 <Col span="12">
-                                 <h4>{{item.name}}</h4>
-                                 <p style="margin-top: 1px; textalign: justify">{{item.description}}</p>
-                                 </Col>
-                                 <Col span="4">
-                                 </Col>
-                                 <Col span="8">
-                                 <img :src="item.img_url" :alt="item.name" class="item--img">
-                                 </Col>
-                              </Row>
-                           </Card>
-                           <Divider />
-                        </nuxt-link>
-                     </div>
-        </TabPane>
-    </Tabs>
-
+         <Tabs >
+            <TabPane v-for="group in menu.groups" :key="group.id" :label="group.name">
+               <div v-for="item in group.items" :key="item.id">
+                  <nuxt-link :to="`../item/${item.id}?restaurant=${loadRest.name}&menu=${menu.id}`" class="itemtab">
+                     <Card dis-hover :bordered="false">
+                        <Row class="row--justify">
+                           <Col span="12">
+                           <h4>{{item.name}}</h4>
+                           <p style="margin-top: 1px; textalign: justify">{{item.description}}</p>
+                           </Col>
+                           <Col span="4">
+                           </Col>
+                           <Col span="8">
+                           <img :src="item.img_url" :alt="item.name" class="item--img">
+                           </Col>
+                        </Row>
+                     </Card>
+                     <Divider />
+                  </nuxt-link>
+               </div>
+            </TabPane>
+         </Tabs>
       </div>
       <cart />
    </div>
 </template>
 
 <script>
-
-import { mapGetters, mapActions } from 'vuex'
+import {
+    mapGetters,
+    mapActions
+} from 'vuex'
 import cart from '@/components/cart.vue'
 
 export default {
-    components:{
+    components: {
         cart,
     },
-    data(){
+    data() {
         return {
             menuTiming: '',
             group: 'breakfast',
@@ -72,24 +73,24 @@ export default {
     computed: {
         ...mapGetters({
             loadRest: 'loadRest',
-        cart: 'getCart'
+            cart: 'getCart'
         })
     },
     methods: {
         ...mapActions({
-        getSpecificRest: 'getSpecificRest',
-        clearSpecificRest: 'clearSpecificRest',
-        getCartFromLS: 'getCartFromLS'
+            getSpecificRest: 'getSpecificRest',
+            clearSpecificRest: 'clearSpecificRest',
+            getCartFromLS: 'getCartFromLS'
         }),
-  },
-  mounted(){
-    let params = this.$route.params
-    this.getCartFromLS()
-    this.getSpecificRest(params.id)
-  },
-  destroyed() {
-      this.clearSpecificRest()
-  }
+    },
+    mounted() {
+        let params = this.$route.params
+        this.getCartFromLS()
+        this.getSpecificRest(params.id)
+    },
+    destroyed() {
+        this.clearSpecificRest()
+    }
 }
 </script>
 <style scoped>

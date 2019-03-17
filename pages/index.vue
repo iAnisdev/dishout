@@ -1,59 +1,59 @@
 <template>
-  <section class="">
-    <Menu mode="horizontal" :theme="'light'" active-name="1">
-      <span class="container--row">
-        <h4>Deats</h4>
-        <a href="" >Login with Facebook</a>
-      </span>
-    </Menu>
-    <div class="content">
-        <div  v-for="(rest , index) in restList" :key='index'>
-         <nuxt-link :to="`../restaurant/${rest.id}`" class="itemtab">
-            <div class="rest">
-            <div class="text-center">
-            <img class="bg--image" :src="rest.banner_img_url"/>
-            </div>
-            <Card :bordered="false">
-            <h3>{{rest.name}}</h3>
-              <p class="text-justify">{{rest.description}}</p>
-          </Card>
-          </div>
-         </nuxt-link>
-        </div>
-    </div>
-    <footer class="footer">
-          <h4>
+   <section class="">
+      <Menu mode="horizontal" :theme="'light'" active-name="1">
+         <span class="container--row">
+            <h4>Deats</h4>
+            <a href="" >Login with Facebook</a>
+         </span>
+      </Menu>
+      <div class="content">
+         <div  v-for="(rest , index) in restList" :key='index'>
+            <nuxt-link :to="`../restaurant/${rest.id}`" class="itemtab">
+               <div class="rest">
+                  <div class="text-center">
+                     <img class="bg--image" :src="rest.banner_img_url"/>
+                  </div>
+                  <Card :bordered="false">
+                     <h3>{{rest.name}}</h3>
+                     <p class="text-justify">{{rest.description}}</p>
+                  </Card>
+               </div>
+            </nuxt-link>
+         </div>
+      </div>
+      <footer class="footer">
+         <h4>
             © 2019. All Rights Reserved.
             <a href="mailto:mgild@deats.com">Contact Us</a>
-          </h4>
-  </footer>
-  </section>
+         </h4>
+      </footer>
+   </section>
 </template>
-
 <script>
-
-import { mapGetters, mapActions } from 'vuex'
+import {
+    mapGetters,
+    mapActions
+} from 'vuex'
 
 export default {
-  data() {
-    return {
+    data() {
+        return {}
+    },
+    computed: {
+        ...mapGetters({
+            restList: 'restList'
+        })
+    },
+    methods: {
+        ...mapActions({
+            getAllRest: 'getAllRest',
+            getCartFromLS: 'getCartFromLS'
+        }),
+    },
+    mounted() {
+        this.getAllRest()
+        this.getCartFromLS()
     }
-  },
-  computed: {
-     ...mapGetters({
-        restList: 'restList'
-    })
-  },
-   methods: {
-    ...mapActions({
-      getAllRest: 'getAllRest',
-      getCartFromLS: 'getCartFromLS'
-    }),
-  },
-  mounted(){
-    this.getAllRest()
-    this.getCartFromLS()
-  }
 }
 </script>
 

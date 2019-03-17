@@ -18,7 +18,6 @@ export default {
         state.cart = []
     },
     set_menu_rest: (state , rest) => {
-        console.log('called wit data ' , rest)
         state.rest = rest
     }
 }

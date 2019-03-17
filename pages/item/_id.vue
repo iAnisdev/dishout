@@ -1,47 +1,47 @@
 <template>
-    <div class="page">
-        <div class="bg">
-            <img class="bg--image" :src="item.img_url"/>
-        </div>
-        <div class="content">
-            <h3>{{item.name}}</h3>
-            <h4> ${{item.price}}</h4>
-            <p class="text-justify">{{item.description}}</p>
-            <div v-for="group in item.radio_option_groups" :key="group.id">
+   <div class="page">
+      <div class="bg">
+         <img class="bg--image" :src="item.img_url"/>
+      </div>
+      <div class="content">
+         <h3>{{item.name}}</h3>
+         <h4> ${{item.price}}</h4>
+         <p class="text-justify">{{item.description}}</p>
+         <div v-for="group in item.radio_option_groups" :key="group.id">
             <Card style="margin-top: 2vh">
-            <p slot="title">
-            {{group.description}}
-            </p>
-            <p  slot="extra"> Min: <b>{{group.min_selectable}}</b></p>
-             <RadioGroup v-model="modifier" vertical v-for="option in group.options" :key="option.id">
-            <Radio :label="option.name">
-                <span>{{option.name}}</span>
-            </Radio>
-    </RadioGroup>
-    </Card>
-     <Card style="margin-top: 2vh">
-            <p slot="title">condiments</p>
-             <CheckboxGroup v-model="condiments" v-for="option in item.options" :key="option.id">
-            <Checkbox :label="option.name">
-                <span style="text-algn: left;">{{option.name}}</span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span>+${{option.price}}</span>
-            </Checkbox>
-    </CheckboxGroup>
-    </Card>
-        </div>
-        </div>
-        <footer>
-            <Button type="success" long @click="addtoCart(item)">
-           <div class="justify-center">
-            <span>Add 1 to cart</span>
-            <span>${{price || item.price}}</span>
-           </div>
-        </Button>
-        </footer>
-       </div>
+               <p slot="title">
+                  {{group.description}}
+               </p>
+               <p  slot="extra"> Min: <b>{{group.min_selectable}}</b></p>
+               <RadioGroup v-model="modifier" vertical v-for="option in group.options" :key="option.id">
+                  <Radio :label="option.name">
+                     <span>{{option.name}}</span>
+                  </Radio>
+               </RadioGroup>
+            </Card>
+            <Card style="margin-top: 2vh">
+               <p slot="title">condiments</p>
+               <CheckboxGroup v-model="condiments" v-for="option in item.options" :key="option.id">
+                  <Checkbox :label="option.name">
+                     <span style="text-algn: left;">{{option.name}}</span>
+                     <span></span>
+                     <span></span>
+                     <span></span>
+                     <span>+${{option.price}}</span>
+                  </Checkbox>
+               </CheckboxGroup>
+            </Card>
+         </div>
+      </div>
+      <footer>
+         <Button type="success" long @click="addtoCart(item)">
+            <div class="justify-center">
+               <span>Add 1 to cart</span>
+               <span>${{price || item.price}}</span>
+            </div>
+         </Button>
+      </footer>
+   </div>
 </template>
 <script>
 import {
@@ -50,8 +50,7 @@ import {
 } from 'vuex'
 
 export default {
-    components: {
-    },
+    components: {},
     data() {
         return {
             price: null,
@@ -70,9 +69,9 @@ export default {
             orderRest: 'getOrderRest'
         }),
 
-    show(){
-        return this.cart.length > 0
-    }
+        show() {
+            return this.cart.length > 0
+        }
     },
     methods: {
         ...mapActions({
@@ -91,61 +90,60 @@ export default {
             if (item.radio_option_groups.length > 0 && that.modifier == '') {
                 this.$Message.error(`Please ${item.radio_option_groups[0].description} first`);
             } else {
-               if(that.orderMenu == null || that.orderMenu == menu_id){
-                   if(that.orderMenu == null){
-                       that.setMenu(menu_id)
-                       that.setMenuRest(restaurant)
-                   }
-                    let selected_item = {
-                    name: item.name,
-                    id: item.id,
-                    quantity: 1,
-                    price: that.price || item.price,
-                    basePrice: that.price || item.price,
-                    options: that.condiments_Arr,
-                    radio_option_arr: item.radio_option_groups,
-                    radio_options: that.modifier
-                }
-                if(that.cart.length > 0){
-                    let updated_cart = that.cart
-                    let filtered_item =updated_cart.filter((cart_item) => {
-                        return cart_item.id == item.id
-                    })
-                    if(filtered_item.length > 0){
-                        updated_cart.forEach((cart_item) => {
-                            if(filtered_item[0].id == cart_item.id){
-                                cart_item.quantity++
-                                cart_item.price = cart_item.basePrice * cart_item.quantity
-                            }
-                    })
-                    that.updateCart(updated_cart)
-                    this.$Message.success(`item updated`);
-                    }else{
-                    that.addItemToCart(selected_item)
-                    this.$Message.success(`item added`);
-                    }
-                }else{
-                that.addItemToCart(selected_item)
-                this.$Message.success(`item added`);
-                }
-               }else{
-                   this.$Modal.confirm({
-                    title: 'Order from one Menu',
-                    content: '<p>You can only order from on menu at a time , Clear your cart if you would like to order this item</p>',
-                    okText: 'Clear Cart',
-                    cancelText: 'Cancel',
-                    loading: true,
-                    onOk: () => {
-                        that.clearCart()
+                if (that.orderMenu == null || that.orderMenu == menu_id) {
+                    if (that.orderMenu == null) {
                         that.setMenu(menu_id)
                         that.setMenuRest(restaurant)
-                        that.addtoCart(item)
-                        this.$Modal.remove()
-                    },
-                    onCancel: () => {
                     }
-                });
-               }
+                    let selected_item = {
+                        name: item.name,
+                        id: item.id,
+                        quantity: 1,
+                        price: that.price || item.price,
+                        basePrice: that.price || item.price,
+                        options: that.condiments_Arr,
+                        radio_option_arr: item.radio_option_groups,
+                        radio_options: that.modifier
+                    }
+                    if (that.cart.length > 0) {
+                        let updated_cart = that.cart
+                        let filtered_item = updated_cart.filter((cart_item) => {
+                            return cart_item.id == item.id
+                        })
+                        if (filtered_item.length > 0) {
+                            updated_cart.forEach((cart_item) => {
+                                if (filtered_item[0].id == cart_item.id) {
+                                    cart_item.quantity++
+                                    cart_item.price = cart_item.basePrice * cart_item.quantity
+                                }
+                            })
+                            that.updateCart(updated_cart)
+                            this.$Message.success(`item updated`);
+                        } else {
+                            that.addItemToCart(selected_item)
+                            this.$Message.success(`item added`);
+                        }
+                    } else {
+                        that.addItemToCart(selected_item)
+                        this.$Message.success(`item added`);
+                    }
+                } else {
+                    this.$Modal.confirm({
+                        title: 'Order from one Menu',
+                        content: '<p>You can only order from on menu at a time , Clear your cart if you would like to order this item</p>',
+                        okText: 'Clear Cart',
+                        cancelText: 'Cancel',
+                        loading: true,
+                        onOk: () => {
+                            that.clearCart()
+                            that.setMenu(menu_id)
+                            that.setMenuRest(restaurant)
+                            that.addtoCart(item)
+                            this.$Modal.remove()
+                        },
+                        onCancel: () => {}
+                    });
+                }
             }
         }
     },
