@@ -1,8 +1,12 @@
 <template>
-    <div class="page">
-        <img class="bg--image" src="https://vinta-cms.s3.amazonaws.com/media/filer_public/2e/64/2e642aa4-2856-4bba-a2cf-330879eef793/django_rest_framework.png"/>
-         <Card>
-            <h3>{{restaurant.name}}</h3>
+   <div class="page">
+      <div class="text-center">
+         <img class="bg--image" :src="loadRest.banner_img_url"/>
+      </div>
+      <Card>
+         <h3>{{loadRest.name}}</h3>
+         <p>{{loadRest.description}}</p>
+         <!--
             <Row class="row">
                 <Tag >American</Tag>
                 <Tag >Fast food</Tag>
@@ -19,98 +23,89 @@
                 <span>4.6 (200)</span>
             </Col>
             </Row>
-            
-    </Card>
-    <div class="container">
-        <Select>
-            <Option v-for="(item , index) in restaurant.menu" :value="item.name" :key="index">
-                <span>{{item.name}}</span>
-                <span style="float:right;color:#ccc">{{item.timing}}</span>
-            </Option>
-            </Select>
-    </div>
-     
-     <div style="margin-top: 5vh;">
-     <nuxt-link to="../item/:id" class="itemtab">
-     <Card dis-hover :bordered="false">
-         <Row class="row--justify">
-            <Col span="14">
-            <h4>Hamburger</h4>
-            <p style="margin-top: 1px;">hamburger Beefburger or burger </p>
-            </Col>
-            <Col span="8">
-                <img src="~/assets/burger.png" alt="burger" class="item--img">
-            </Col>
-         </Row>
-        </Card><Divider />
-        </nuxt-link>
-        <Card dis-hover style="margin-top: 2vh;" :bordered="false">
-         <Row class="row--justify">
-            <Col span="14">
-            <h4>Pizza</h4>
-            <p style="margin-top: 1px;">Pizza is a savory dish of Italian origin</p>
-            </Col>
-            <Col span="8">
-                <img src="~/assets/pizza.png" alt="burger" class="item--img">
-            </Col>
-         </Row>
-        </Card><Divider />
-        </Card>
-        <Card dis-hover style="margin-top: 2vh;" :bordered="false">
-         <Row class="row--justify">
-            <Col span="14">
-            <h4>French fries</h4>
-            <p style="margin-top: 1px;">French fries, or simply fries</p>
-            </Col>
-            <Col span="8">
-                <img src="~/assets/fries.png" alt="burger" class="item--img">
-            </Col>
-         </Row>
-        </Card>
-        </div>
-        <cart />
-    </div>
+            -->
+      </Card>
+      <div class="container" v-for="menu in loadRest.menus" :key="menu.owner">
+           <Tabs >
+        <TabPane v-for="group in menu.groups" :key="group.id" :label="group.name">
+            <div v-for="item in group.items" :key="item.id">
+                        <nuxt-link :to="`../item/${item.id}`" class="itemtab">
+                           <Card dis-hover :bordered="false">
+                              <Row class="row--justify">
+                                 <Col span="12">
+                                 <h4>{{item.name}}</h4>
+                                 <p style="margin-top: 1px; text-align: justify">{{item.description}}</p>
+                                 </Col>
+                                 <Col span="4">
+                                 </Col>
+                                 <Col span="8">
+                                 <img :src="item.img_url" :alt="item.name" class="item--img">
+                                 </Col>
+                              </Row>
+                           </Card>
+                           <Divider />
+                        </nuxt-link>
+                     </div>
+        </TabPane>
+    </Tabs>
+
+      </div>
+      <cart />
+   </div>
 </template>
 
 <script>
+
+import { mapGetters, mapActions } from 'vuex'
 import cart from '@/components/cart.vue'
+
 export default {
     components:{
-        cart
+        cart,
     },
     data(){
         return {
             menuTiming: '',
-            restaurant: {
-                name: 'Mcdonald',
-                cuisines:['American' , 'Fast food' , 'Pizza' , 'Burger'],
-                menu: [{
-                    name: 'Breakfast',
-                    timing: '06:00 AM to 10:30 AM'
-                },{
-                    name: 'Lunch',
-                    timing: '12:00 PM to 2:30 PM'
-                },{
-                    name: 'Dinner',
-                    timing: '06:00 PM to 19:30 PM'
-                }]
-            }
+            group: 'breakfast',
         }
-    }
+    },
+    computed: {
+        ...mapGetters({
+            loadRest: 'loadRest',
+        cart: 'getCart'
+        })
+    },
+    methods: {
+        ...mapActions({
+        getSpecificRest: 'getSpecificRest',
+        clearSpecificRest: 'clearSpecificRest',
+        getCartFromLS: 'getCartFromLS'
+        }),
+  },
+  mounted(){
+    let params = this.$route.params
+    this.getCartFromLS()
+    this.getSpecificRest(params.id)
+  },
+  destroyed() {
+      this.clearSpecificRest()
+  }
 }
 </script>
 <style scoped>
 .page{
     max-width: 100vw;
 }
-.bg--image{
-    width: 100%;
-    max-height: 30vh;
-}
 .ivu-card{
     width: 90vw;
     margin: auto;
-    top: -3vh;
+}
+.text-center {
+    text-align: center
+}
+.bg--image{
+    max-height: 45vh;
+    max-width: 100vw;
 }
 .cuisine--list{
     display: flex;
@@ -118,14 +113,12 @@ export default {
     flex-wrap: wrap;
 }
 .row{
-    margin-left:1vw;
     margin-top: 1vh;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
 }
 .row--justify{
-    margin-left:1vw;
     margin-top: 1vh;
     display: flex;
     flex-direction: row;

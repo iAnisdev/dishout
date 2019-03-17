@@ -3,9 +3,10 @@ import getters from './getters';
 import mutations from './mutations';
 
 const defaultState = {
-  restaurants: [],
-  specificRest: {},
-  item: {},
+  cart: [],
+  order: {
+    Menu: ''
+  }
 }
 
 const inBrowser = typeof window !== 'undefined';

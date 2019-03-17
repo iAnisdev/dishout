@@ -10,7 +10,9 @@
         <div  v-for="(rest , index) in restList" :key='index'>
          <nuxt-link :to="`../restaurant/${rest.id}`" class="itemtab">
             <div class="rest">
+            <div class="text-center">
             <img class="bg--image" :src="rest.banner_img_url"/>
+            </div>
             <Card :bordered="false">
             <h3>{{rest.name}}</h3>
               <p class="text-justify">{{rest.description}}</p>
@@ -44,16 +46,18 @@ export default {
   },
    methods: {
     ...mapActions({
-      getAllRest: 'getAllRest'
+      getAllRest: 'getAllRest',
+      getCartFromLS: 'getCartFromLS'
     }),
   },
   mounted(){
     this.getAllRest()
+    this.getCartFromLS()
   }
 }
 </script>
 
-<style>
+<style scoped>
 .ivu-menu{
   background-color: #f8f9fa;
 }
@@ -80,8 +84,13 @@ export default {
     top: -1vh;
     border-radius: 0px 0px 5px 5px;
 }
+.text-center{
+  text-align: center;
+  background-color: #fff;
+    border-radius: 5px 5px 0px 0px ;
+}
 .bg--image{
-    width: 100%;
+    max-width: 100%;
     max-height: 30vh;
     border-radius: 5px 5px 0px 0px ;
 }

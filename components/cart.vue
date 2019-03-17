@@ -1,13 +1,35 @@
 <template>
-    <footer>
-        <h4 class="cart--total">$8.75</h4>
+   <nuxt-link to="/order">
+        <footer v-if="show">
+        <h4 class="cart--total">${{cartPrice}}</h4>
         <h5 class="cart--button">View Cart</h5>
-        <h4 class="cart--size">1</h4>
+        <h4 class="cart--size">{{cartSize}}</h4>
     </footer>
+   </nuxt-link>
 </template>
 <script>
+import { mapGetters, mapActions } from 'vuex'
 export default {
-    
+    data () {
+        return {
+            
+        }
+    },
+    computed: {
+       ...mapGetters({
+        cart: 'getCart',
+        cartPrice: 'cartPrice',
+        cartSize: 'cartSize'
+    }),
+    show(){
+        return this.cart.length > 0
+    }
+    },
+    watch: {
+        cart(newVal){
+            console.log('changed' , newVal)
+        }
+    }
 }
 </script>
 <style scoped>
@@ -15,7 +37,7 @@ footer{
     width: 100vw;
     position: fixed;
     bottom: 0;
-    background-color: green;
+    background-color: #19be6b;
     color: white;
     font-weight: bold;
     display: flex;

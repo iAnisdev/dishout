@@ -1,80 +1,180 @@
 <template>
     <div class="page">
         <div class="bg">
-            <img class="bg--image" src="~/assets/burger.png"/>
+            <img class="bg--image" :src="item.img_url"/>
         </div>
         <div class="content">
-            <h3>Item Name</h3>
-            <h4>240-260 cal</h4>
-            <p class="text-justify">Modal dialog. It's shown in the floating layer. It's used to guide user to do certain operations.Modal provides two usages: normal component using & encapsulated instance calling.</p>
-              <Collapse v-model="value1">
-                    <Panel name="1">
-                        <span>Select Size </span><span class="min">Minimum 1</span>
-                        <div slot="content">
-                <RadioGroup vertical>
-                    <Radio value="Small">
-                        <Icon type="small"></Icon>
-                        <span>Small</span>
-                    </Radio>
-                    <Radio value="Meduim">
-                        <Icon type="meduim"></Icon>
-                        <span>Meduim</span>
-                    </Radio>
-                    <Radio value="large">
-                        <Icon type="large"></Icon>
-                        <span>Large</span>
-                    </Radio>
-                </RadioGroup>
-                </div>
-                    </Panel>
-                    <Panel name="2">
-                        <span>Add Extra Cheese</span><span class="min">(Choose Upto 1)</span>
-                        <div slot="content">
-                             <CheckboxGroup v-model="cheese">
-                            <Checkbox>
-                                <span>Cheddar Cheese</span> <span class="price">+$1.00</span>
-                            </Checkbox>
-                            <Checkbox>
-                                <span>Swiss Cheese</span> <span class="price">+$0.60</span>
-                            </Checkbox>
-                            <Checkbox>
-                                <span>American Cheese</span> <span class="price">+$0.50</span>
-                            </Checkbox>
-                        </CheckboxGroup>
-                        </div>
-                    </Panel>
-                    <Panel name="3">
-                        <span>Add Extra Veggies</span>
-                        <div slot="content">
-                        <CheckboxGroup class="none" v-model="size" size="large">
-                            <Checkbox>
-                                <span>Luttuce</span>
-                                 <span class="price"></span>
-                            </Checkbox>
-                            <Checkbox>
-                                <span>Tomato</span>
-                                 <span class="price"></span>
-                            </Checkbox>
-                        </CheckboxGroup>
-                        </div>
-                    </Panel>
-                </Collapse>
+            <h3>{{item.name}}</h3>
+            <h4> ${{item.price}}</h4>
+            <p class="text-justify">{{item.description}}</p>
+            <div v-for="group in item.radio_option_groups" :key="group.id">
+            <Card style="margin-top: 2vh">
+            <p slot="title">
+            {{group.description}}
+            </p>
+            <p  slot="extra"> Min: <b>{{group.min_selectable}}</b></p>
+             <RadioGroup v-model="modifier" vertical v-for="option in group.options" :key="option.id">
+            <Radio :label="option.name">
+                <span>{{option.name}}</span>
+            </Radio>
+    </RadioGroup>
+    </Card>
+     <Card style="margin-top: 2vh">
+            <p slot="title">condiments</p>
+             <CheckboxGroup v-model="condiments" v-for="option in item.options" :key="option.id">
+            <Checkbox :label="option.name">
+                <span style="text-algn: left;">{{option.name}}</span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span>+${{option.price}}</span>
+            </Checkbox>
+    </CheckboxGroup>
+    </Card>
+        </div>
         </div>
         <footer>
-            <h4>Add 1 to cart</h4>
-            <h4>$ 8.0</h4>
+            <Button type="success" long @click="addtoCart(item)">
+           <div class="justify-center">
+            <span>Add 1 to cart</span>
+            <span>${{price || item.price}}</span>
+           </div>
+        </Button>
         </footer>
        </div>
 </template>
 <script>
+import {
+    mapGetters,
+    mapActions
+} from 'vuex'
+
 export default {
-    data (){
+    components: {
+    },
+    data() {
         return {
-           value1: '1',
-           cheese: [],
-           size: ['small'],
-           disabled: false
+            price: null,
+            modifier: '',
+            condiments_Arr: [],
+            condiments: []
         }
+    },
+    computed: {
+        ...mapGetters({
+            item: 'getItem',
+            cart: 'getCart',
+            cartPrice: 'cartPrice',
+            cartSize: 'cartSize',
+            orderMenu: 'getOrderMenu'
+        }),
+
+    show(){
+        return this.cart.length > 0
+    }
+    },
+    methods: {
+        ...mapActions({
+            getSpecificItem: 'getSpecificItem',
+            addItemToCart: 'addItemToCart',
+            clearItem: 'clearItem',
+            updateCart: 'updateCart',
+            setMenu: 'setMenu',
+            clearCart: 'clearCart'
+        }),
+        addtoCart(item) {
+            let that = this
+            if (item.radio_option_groups.length > 0 && that.modifier == '') {
+                this.$Message.error(`Please ${item.radio_option_groups[0].description} first`);
+            } else {
+               if(that.orderMenu == '' || that.orderMenu == that.item.menu_group){
+                   if(that.orderMenu == ''){
+                       that.setMenu(that.item.menu_group)
+                   }
+                    let selected_item = {
+                    id: item.id,
+                    quantity: 1,
+                    price: that.price || item.price,
+                    basePrice: that.price || item.price,
+                    options: that.condiments_Arr,
+                    radio_options: that.modifier
+                }
+                if(that.cart.length > 0){
+                    let updated_cart = that.cart
+                    let filtered_item =updated_cart.filter((cart_item) => {
+                        return cart_item.id == item.id
+                    })
+                    if(filtered_item.length > 0){
+                        updated_cart.forEach((cart_item) => {
+                            if(filtered_item[0].id == cart_item.id){
+                                cart_item.quantity++
+                                cart_item.price = cart_item.basePrice * cart_item.quantity
+                            }
+                    })
+                    that.updateCart(updated_cart)
+                    this.$Message.success(`item updated`);
+                    }else{
+                    that.addItemToCart(selected_item)
+                    this.$Message.success(`item added`);
+                    }
+                }else{
+                that.addItemToCart(selected_item)
+                this.$Message.success(`item added`);
+                }
+               }else{
+                   this.$Modal.confirm({
+                    title: 'Order from one Menu',
+                    content: '<p>You can only order from on menu at a time , Clear your cart if you would like to order this item</p>',
+                    okText: 'Clear Cart',
+                    cancelText: 'Cancel',
+                    loading: true,
+                    onOk: () => {
+                        that.setMenu(that.item.menu_group)
+                        that.clearCart()
+                        that.addtoCart(item)
+                        this.$Modal.remove()
+                    },
+                    onCancel: () => {
+                    }
+                });
+               }
+            }
+        }
+    },
+    watch: {
+        condiments(newVal, oldVal) {
+            let that = this
+            if (newVal.length > 0) {
+                that.condiments_Arr = []
+                newVal.forEach(cond => {
+                    that.item.options.forEach(function(option) {
+                        if (option.name == cond) {
+                            that.condiments_Arr.push(option)
+                            let newPrice = that.item.price
+                            let uniqueArray = that.condiments_Arr.filter(function(item, pos) {
+                                return that.condiments_Arr.indexOf(item) == pos;
+                            })
+                            uniqueArray.forEach(function(uniq) {
+                                newPrice = Number(newPrice) + Number(uniq.price)
+                            })
+                            that.condiments_Arr = uniqueArray
+                            that.price = newPrice
+                        }
+                    })
+                });
+            } else {
+                that.condiments_Arr = []
+                that.price = that.item.price
+            }
+        }
+    },
+    mounted() {
+        let that = this
+        let params = this.$route.params
+        this.getSpecificItem(params.id)
+    },
+    destroyed() {
+        this.clearItem()
     }
 }
 </script>
@@ -88,7 +188,7 @@ export default {
 }
 .bg--image{
     width: 100%;
-    max-height: 30vh;
+    max-height: 35vh;
 }
 .content{
     padding: 2vh 5vw;
@@ -100,6 +200,9 @@ export default {
 .ivu-collapse {
     margin-top: 2vh;
 }
+.ivu-radio-group{
+    display: block;
+}
 .min{
     margin-right: 5vw;
     float: right;
@@ -110,17 +213,19 @@ export default {
     flex-direction: row;
     justify-content: space-between;
 }
+.justify-center{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 1px 20vw
+}
 footer{
     width: 100vw;
     position: fixed;
     bottom: 0;
-    background-color: green;
     color: white;
+    background-color: #19be6b;
     font-weight: bold;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
     font-size: 16px;
-    padding: 1vh 20vw;
 }
 </style>
