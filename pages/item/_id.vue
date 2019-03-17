@@ -67,7 +67,7 @@ export default {
             cartPrice: 'cartPrice',
             cartSize: 'cartSize',
             orderMenu: 'getOrderMenu',
-            getOrderRest: 'getOrderRest'
+            orderRest: 'getOrderRest'
         }),
 
     show(){
@@ -88,21 +88,22 @@ export default {
             let that = this
             let menu_id = this.$route.query.menu
             let restaurant = this.$route.query.restaurant
-            console.log(restaurant)
             if (item.radio_option_groups.length > 0 && that.modifier == '') {
                 this.$Message.error(`Please ${item.radio_option_groups[0].description} first`);
             } else {
-               if(that.orderMenu == '' || that.orderMenu == menu_id){
-                   if(that.orderMenu == ''){
+               if(that.orderMenu == null || that.orderMenu == menu_id){
+                   if(that.orderMenu == null){
                        that.setMenu(menu_id)
                        that.setMenuRest(restaurant)
                    }
                     let selected_item = {
+                    name: item.name,
                     id: item.id,
                     quantity: 1,
                     price: that.price || item.price,
                     basePrice: that.price || item.price,
                     options: that.condiments_Arr,
+                    radio_option_arr: item.radio_option_groups,
                     radio_options: that.modifier
                 }
                 if(that.cart.length > 0){

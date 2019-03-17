@@ -5,7 +5,7 @@ import mutations from './mutations';
 const defaultState = {
   cart: [],
   order: {
-    Menu: ''
+    Menu: null
   },
   rest: ''
 }

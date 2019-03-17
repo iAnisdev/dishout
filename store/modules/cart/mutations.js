@@ -9,6 +9,7 @@ export default {
     },
     update_cart: (state , data) => {
         state.cart = data
+        localStorage.setItem('cart',  JSON.stringify(state.cart))
     },
     set_menu: (state , menu_id) => {
         state.order.Menu = menu_id
