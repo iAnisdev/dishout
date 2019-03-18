@@ -25,5 +25,8 @@ export default {
     },
     is_order_done: (state , data) => {
         state.isOrderd = data
+    },
+    set_order_list: (state , data) => {
+        state.orderList = data
     }
 }

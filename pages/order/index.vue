@@ -65,6 +65,7 @@ export default {
         }),
         order() {
             let that = this
+             this.$Spin.show()
             let updated_cart = []
             that.cart.forEach(item => {
                 let new_item = {
@@ -96,7 +97,7 @@ export default {
                 items: updated_cart,
                 this: that
             }
-            that.placeOrder(order , 1)
+            that.placeOrder(order)
         },
         ok() {
             this.$router.back()

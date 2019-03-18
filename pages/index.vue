@@ -3,7 +3,9 @@
       <Menu mode="horizontal" :theme="'light'" active-name="1">
          <span class="container--row">
             <h4>Deats</h4>
-            <a href="" >Login with Facebook</a>
+            <h4>
+               <Icon size="24"  @click="drawer = true" type="ios-menu" />
+            </h4>
          </span>
       </Menu>
       <div class="content">
@@ -27,8 +29,41 @@
             <a href="mailto:mgild@deats.com">Contact Us</a>
          </h4>
       </footer>
+      <Drawer title="Profile Info" placement="left" :closable="false" v-model="drawer">
+         <div class="profile">
+            <Avatar icon="ios-person" size="large" />
+            <h3 class="name"><b>user name</b></h3>
+            <h4>user email</h4>
+            <Divider />
+            <Menu active-name="1-1" class="menu-side" :open-names="['1']">
+                <MenuItem name="0" >
+                <Icon type="ios-home" />
+                Home
+            </MenuItem>
+               <Submenu name="1">
+                  <template slot="title">
+                     <Icon type="ios-filing" />
+                     Order List
+                  </template>
+                  <MenuItem name="1-1" to="./order/list">
+                     <Icon type="md-arrow-down" />
+                     In Coming
+                  </MenuItem>
+                  <MenuItem name="1-2" to="./order/list">
+                     <Icon type="ios-clock-outline" />
+                     In Progress
+                  </MenuItem>
+                  <MenuItem name="1-3" to="./order/list">
+                     <Icon type="ios-checkmark-circle-outline" />
+                     Done
+                  </MenuItem>
+               </Submenu>
+            </Menu>
+         </div>
+      </Drawer>
    </section>
 </template>
+
 <script>
 import {
     mapGetters,
@@ -37,7 +72,9 @@ import {
 
 export default {
     data() {
-        return {}
+        return {
+            drawer: false
+        }
     },
     computed: {
         ...mapGetters({
@@ -51,7 +88,8 @@ export default {
         }),
     },
     mounted() {
-        this.getAllRest()
+       let that = this
+        this.getAllRest(that)
         this.getCartFromLS()
     }
 }
@@ -87,7 +125,7 @@ export default {
 .text-center{
   text-align: center;
   background-color: #fff;
-    border-radius: 5px 5px 0px 0px ;
+  border-radius: 5px 5px 0px 0px ;
 }
 .bg--image{
     max-width: 100%;
@@ -96,6 +134,13 @@ export default {
 }
 .itemtab{
     color: #515a6e;
+}
+.name{
+    margin-top: 1vh;
+}
+.menu-side{
+    background-color: white;
+    left: 0;
 }
 .footer{
    bottom:0;

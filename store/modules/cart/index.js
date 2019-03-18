@@ -8,10 +8,9 @@ const defaultState = {
     Menu: null
   },
   rest: '',
-  orderData:{
-
-  },
-  isOrderd: false
+  orderData:{},
+  isOrderd: false,
+  orderList: []
 }
 
 const inBrowser = typeof window !== 'undefined';

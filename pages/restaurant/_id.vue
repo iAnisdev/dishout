@@ -3,9 +3,10 @@
       <div class="text-center">
          <img class="bg--image" :src="loadRest.banner_img_url"/>
       </div>
-      <Card>
+      <Card :bordered="false">
          <h3>{{loadRest.name}}</h3>
          <p>{{loadRest.description}}</p>
+
          <!--
             <Row class="row">
                 <Tag >American</Tag>
@@ -24,8 +25,9 @@
             </Col>
             </Row>
             -->
+
       </Card>
-      <div class="container" v-for="menu in loadRest.menus" :key="menu.owner">
+      <div class="container"  v-for="menu in loadRest.menus" :key="menu.owner">
          <Tabs >
             <TabPane v-for="group in menu.groups" :key="group.id" :label="group.name">
                <div v-for="item in group.items" :key="item.id">
@@ -84,9 +86,15 @@ export default {
         }),
     },
     mounted() {
-        let params = this.$route.params
+        let that = this
+        let id = this.$route.params.id
+        let data = {
+            that,
+            id
+        }
+       this.$Spin.show();
+        that.getSpecificRest(data)
         this.getCartFromLS()
-        this.getSpecificRest(params.id)
     },
     destroyed() {
         this.clearSpecificRest()
@@ -98,7 +106,8 @@ export default {
     max-width: 100vw;
 }
 .ivu-card{
-    width: 90vw;
+    width: 100%;
+    
     margin: auto;
 }
 .text-center {
@@ -126,7 +135,7 @@ export default {
     justify-content: space-between;
 }
 .container{
-    width: 90vw;
+    width: 100%;
     display: flex;
     justify-content: center;
     margin: auto;

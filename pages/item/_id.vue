@@ -8,7 +8,7 @@
          <h4> ${{item.price}}</h4>
          <p class="text-justify">{{item.description}}</p>
          <div v-for="group in item.radio_option_groups" :key="group.id">
-            <Card style="margin-top: 2vh">
+            <Card style="margin-top: 2vh" :bordered="false">
                <p slot="title">
                   {{group.description}}
                </p>
@@ -19,7 +19,7 @@
                   </Radio>
                </RadioGroup>
             </Card>
-            <Card style="margin-top: 2vh">
+            <Card style="margin-top: 2vh" :bordered="false">
                <p slot="title">condiments</p>
                <CheckboxGroup v-model="condiments" v-for="option in item.options" :key="option.id">
                   <Checkbox :label="option.name">
@@ -85,9 +85,11 @@ export default {
         }),
         addtoCart(item) {
             let that = this
+            that.$Spin.show()
             let menu_id = this.$route.query.menu
             let restaurant = this.$route.query.restaurant
             if (item.radio_option_groups.length > 0 && that.modifier == '') {
+                that.$Spin.hide()
                 this.$Message.error(`Please ${item.radio_option_groups[0].description} first`);
             } else {
                 if (that.orderMenu == null || that.orderMenu == menu_id) {
@@ -117,15 +119,18 @@ export default {
                                     cart_item.price = cart_item.basePrice * cart_item.quantity
                                 }
                             })
+                            that.$Spin.hide()
                             that.updateCart(updated_cart)
                             this.$Message.success(`item updated`);
                             this.$router.back()
                         } else {
+                            that.$Spin.hide()
                             that.addItemToCart(selected_item)
                             this.$Message.success(`item added`);
                             this.$router.back()
                         }
                     } else {
+                        that.$Spin.hide()
                         that.addItemToCart(selected_item)
                         this.$Message.success(`item added`);
                         this.$router.back()
@@ -138,6 +143,7 @@ export default {
                         cancelText: 'Cancel',
                         loading: true,
                         onOk: () => {
+                            that.$Spin.hide()
                             that.clearCart()
                             that.setMenu(menu_id)
                             that.setMenuRest(restaurant)
@@ -145,11 +151,15 @@ export default {
                             this.$Modal.remove()
                             this.$router.back()
                         },
-                        onCancel: () => {}
+                        onCancel: () => {
+                            that.$Spin.hide()
+                        }
                     });
                 }
             }
+            that.$Spin.hide()
         }
+
     },
     watch: {
         condiments(newVal, oldVal) {
@@ -180,8 +190,9 @@ export default {
     },
     mounted() {
         let that = this
-        let params = this.$route.params
-        this.getSpecificItem(params.id)
+        that.$Spin.show()
+        let id = this.$route.params.id
+        this.getSpecificItem({id  , that })
     },
     destroyed() {
         this.clearItem()

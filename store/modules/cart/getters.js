@@ -18,5 +18,38 @@ export default {
     getOrderMenu: state => state.order.Menu,
     getOrderRest: state => state.rest,
     getOrderInfo: state => state.orderData,
-    getOrderStatus: state => state.isOrderd
+    getOrderStatus: state => state.isOrderd,
+    getIPOrders: (state) => {
+        let inOrder = []
+        state.orderList.forEach((order) => {
+            if(order.status == "IN"){
+                order.Date = order.date.substring(0,10)
+                order.time = order.date.substring (11,19)
+                inOrder.push(order)
+            }
+        })
+        return inOrder
+    },
+    getINOrders: (state) => {
+        let ipOrders = []
+        state.orderList.forEach((order) => {
+            if(order.status == "IP"){
+                order.Date = order.date.substring(0,10)
+                order.time = order.date.substring (11,19)
+                ipOrders.push(order)
+            }
+        })
+        return ipOrders
+    },
+    getDOOrders: (state) => {
+        let doOrder = []
+        state.orderList.forEach((order) => {
+            if(order.status == "DO"){
+                order.Date = order.date.substring(0,10)
+                order.time = order.date.substring (11,19)
+                doOrder.push(order)
+            }
+        })
+        return doOrder
+    },
 }
