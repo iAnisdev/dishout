@@ -19,5 +19,11 @@ export default {
     },
     set_menu_rest: (state , rest) => {
         state.rest = rest
+    },
+    set_order:(state , data) => {
+        state.orderData = data
+    },
+    is_order_done: (state , data) => {
+        state.isOrderd = data
     }
 }

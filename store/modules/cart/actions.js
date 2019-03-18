@@ -19,14 +19,24 @@ export default {
     setMenuRest: ({commit} , data) => {
         commit('set_menu_rest' , data)
     },
-    placeOrder: ({} , data) => {
+    placeOrder: ({commit} , data) => {
+        let that = data.this
+        delete data.this
         let  headers = {
         'Authorization': 'Token 5822cd005a14cf7212bffb51c2bab69d87460dae',
         'Content-Type': 'application/json'
         }
-        console.log(data)
-        Api().post('/order' , {headers : headers} , data ).then((res) =>
-        console.log(res)
+        Api().post('/order/', JSON.stringify(data)  , {headers : headers}).then((res) =>{
+        if(res.status == 200){
+            let order = res.data
+            order.Date = order.date.substring(0,10)
+            order.time = order.date.substring (11,19)
+            commit('set_order' , order)
+            commit('is_order_done' , true)
+            that.$Message.success('order placed successfully');
+            that.$router.push({path: 'order/info'});
+        }
+        }
         ).catch((err) => 
         console.log('err is ' ,err.message))
     }

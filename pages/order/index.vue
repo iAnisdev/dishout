@@ -45,8 +45,7 @@ import {
 export default {
     data() {
         return {
-            note: '',
-            iconModel: true
+            note: ''
         }
     },
     computed: {
@@ -55,7 +54,9 @@ export default {
             cartPrice: 'cartPrice',
             cartSize: 'cartSize',
             orderMenu: 'getOrderMenu',
-            orderRest: 'getOrderRest'
+            orderRest: 'getOrderRest',
+            orderInfo: 'getOrderInfo',
+            orderStatus: 'getOrderStatus'
         }),
     },
     methods: {
@@ -91,10 +92,14 @@ export default {
             let order = {
                 menu: Number(that.orderMenu),
                 customer: 1,
-                table_id: '1',
-                items: updated_cart
+                table_id:  1,
+                items: updated_cart,
+                this: that
             }
-            that.placeOrder(order)
+            that.placeOrder(order , 1)
+        },
+        ok() {
+            this.$router.back()
         }
     }
 }

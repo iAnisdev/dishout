@@ -119,13 +119,16 @@ export default {
                             })
                             that.updateCart(updated_cart)
                             this.$Message.success(`item updated`);
+                            this.$router.back()
                         } else {
                             that.addItemToCart(selected_item)
                             this.$Message.success(`item added`);
+                            this.$router.back()
                         }
                     } else {
                         that.addItemToCart(selected_item)
                         this.$Message.success(`item added`);
+                        this.$router.back()
                     }
                 } else {
                     this.$Modal.confirm({
@@ -140,6 +143,7 @@ export default {
                             that.setMenuRest(restaurant)
                             that.addtoCart(item)
                             this.$Modal.remove()
+                            this.$router.back()
                         },
                         onCancel: () => {}
                     });

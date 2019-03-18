@@ -7,7 +7,11 @@ const defaultState = {
   order: {
     Menu: null
   },
-  rest: ''
+  rest: '',
+  orderData:{
+
+  },
+  isOrderd: false
 }
 
 const inBrowser = typeof window !== 'undefined';

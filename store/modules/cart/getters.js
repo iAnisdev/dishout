@@ -16,5 +16,7 @@ export default {
     },
     getOrder: state => state.order,
     getOrderMenu: state => state.order.Menu,
-    getOrderRest: state => state.rest
+    getOrderRest: state => state.rest,
+    getOrderInfo: state => state.orderData,
+    getOrderStatus: state => state.isOrderd
 }
