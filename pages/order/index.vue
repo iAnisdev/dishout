@@ -1,6 +1,6 @@
 <template>
    <section class="">
-      <Menu mode="horizontal" :theme="'dark'" active-name="1">
+      <Menu mode="horizontal" active-name="1">
          <h3 class="hearder">Your Cart</h3>
       </Menu>
       <div class="container">
@@ -27,12 +27,11 @@
                <Divider />
             </div>
             <Input v-model="note" type="textarea" :rows="2" placeholder="order note..." />
-            <Divider />
          </div>
       </div>
       <footer @click="order()">
-         <span>Place Order</span>
-         <span>${{cartPrice}}</span>
+             <h3>Place Order</h3>
+         <h3 style="margin-left: 8vw;">${{cartPrice}}</h3>
       </footer>
    </section>
 </template>
@@ -108,9 +107,7 @@ export default {
 <style scoped>
 .ivu-menu{
     padding: 0px 8vw;
-}
-.hearder{
-    color: white;
+    background-color: #f8f9fa;
 }
 .container{
     width: 80vw;
@@ -137,7 +134,7 @@ footer{
     font-size: 16px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    padding: 8px 20vw
+    justify-content: flex-end;
+    padding: 8px 25vw 4vw 8px;
 }
 </style>

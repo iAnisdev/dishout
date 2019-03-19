@@ -24,10 +24,10 @@
          </div>
       </div>
       <footer class="footer">
-         <h4>
+         <h3>
             © 2019. All Rights Reserved.
             <a href="mailto:mgild@deats.com">Contact Us</a>
-         </h4>
+         </h3>
       </footer>
       <Drawer title="Profile Info" placement="left" :closable="false" v-model="drawer">
          <div class="profile">
@@ -144,7 +144,7 @@ export default {
 }
 .footer{
    bottom:0;
-   padding: 5px;
+   padding: 12px;
    background-color: #fff;
    width:100%;
   display: flex;

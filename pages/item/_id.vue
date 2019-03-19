@@ -3,18 +3,22 @@
       <div class="bg">
          <img class="bg--image" :src="item.img_url"/>
       </div>
-      <div class="content">
-         <h3>{{item.name}}</h3>
-         <h4> ${{item.price}}</h4>
-         <p class="text-justify">{{item.description}}</p>
+      <Card :bordered="false"  style="margin-top: -5vh">
+        <div class="content">
+             <h3>{{item.name}}</h3>
+            <h4> ${{item.price}}</h4>
+            <p class="text-justify">{{item.description}}</p>
+        </div>
+      </Card>
          <div v-for="group in item.radio_option_groups" :key="group.id">
             <Card style="margin-top: 2vh" :bordered="false">
-               <p slot="title">
+                   <p slot="title">
                   {{group.description}}
                </p>
-               <p  slot="extra"> Min: <b>{{group.min_selectable}}</b></p>
-               <RadioGroup v-model="modifier" vertical v-for="option in group.options" :key="option.id">
-                  <Radio :label="option.name">
+               <p  slot="extra" v-if="group.min_selectable && !selected"> <Tag color="success">Required</Tag></p>
+               <p  slot="extra" v-if="group.min_selectable && selected"><Icon type="ios-checkmark-circle" color="#19be6b" size="24" /></p> 
+               <RadioGroup v-model="modifier" vertical v-for="option in group.options" :key="option.id" >
+                  <Radio :label="option.name" size="large">
                      <span>{{option.name}}</span>
                   </Radio>
                </RadioGroup>
@@ -22,8 +26,8 @@
             <Card style="margin-top: 2vh" :bordered="false">
                <p slot="title">condiments</p>
                <CheckboxGroup v-model="condiments" v-for="option in item.options" :key="option.id">
-                  <Checkbox :label="option.name">
-                     <span style="text-algn: left;">{{option.name}}</span>
+                  <Checkbox :label="option.name" size="large">
+                     <span style="text-algn: left; left:0;">{{option.name}}</span>
                      <span></span>
                      <span></span>
                      <span></span>
@@ -32,12 +36,12 @@
                </CheckboxGroup>
             </Card>
          </div>
-      </div>
+      </Card>
       <footer>
          <Button type="success" long @click="addtoCart(item)">
             <div class="justify-center">
-               <span>Add 1 to cart</span>
-               <span>${{price || item.price}}</span>
+               <h2>Add 1 to cart</h2>
+               <h2>${{price || item.price}}</h2>
             </div>
          </Button>
       </footer>
@@ -55,8 +59,9 @@ export default {
         return {
             price: null,
             modifier: '',
+            selected: false,
             condiments_Arr: [],
-            condiments: []
+            condiments: [],
         }
     },
     computed: {
@@ -188,6 +193,13 @@ export default {
             }
         }
     },
+    watch: {
+        modifier(newVal , oldVal) {
+            if(newVal) {
+                this.selected = true
+            }
+        }
+    },
     mounted() {
         let that = this
         that.$Spin.show()
@@ -196,13 +208,14 @@ export default {
     },
     destroyed() {
         this.clearItem()
-    }
+    },
 }
 </script>
 <style scoped>
 .page{
     max-width: 100vw;
-    padding-bottom: 6vh;
+    padding-bottom: 8vh;
+    background: linear-gradient(#eee, white);
 }
 .bg{
     text-align: center;
@@ -212,22 +225,14 @@ export default {
     max-height: 35vh;
 }
 .content{
-    padding: 2vh 5vw;
+    padding: 1px 1vw 2vh 1vw;
 }
 .text-justify{
     margin-top: 2px;
     text-align: justify;
 }
-.ivu-collapse {
-    margin-top: 2vh;
-}
 .ivu-radio-group{
     display: block;
-}
-.min{
-    margin-right: 5vw;
-    float: right;
-    font-weight: bold;
 }
 .ivu-checkbox-group-item{
     display: flex;
@@ -238,7 +243,12 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    padding: 1px 20vw
+    align-content: center;
+    align-items: center;
+    padding: 0px 3vw 0px 22vw;
+}
+.head{
+    background-color: #e8eaec;
 }
 footer{
     width: 100vw;
@@ -246,7 +256,7 @@ footer{
     bottom: 0;
     color: white;
     background-color: #19be6b;
+    font-size: 32px;
     font-weight: bold;
-    font-size: 16px;
 }
 </style>

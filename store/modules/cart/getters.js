@@ -23,8 +23,9 @@ export default {
         let inOrder = []
         state.orderList.forEach((order) => {
             if(order.status == "IN"){
-                order.Date = order.date.substring(0,10)
-                order.time = order.date.substring (11,19)
+                order.Date = order.date.substring(8,10)
+                order.Month = order.date.substring(5,7)
+                order.time = order.date.substring (11,16)
                 inOrder.push(order)
             }
         })
@@ -34,8 +35,9 @@ export default {
         let ipOrders = []
         state.orderList.forEach((order) => {
             if(order.status == "IP"){
-                order.Date = order.date.substring(0,10)
-                order.time = order.date.substring (11,19)
+                order.Date = order.date.substring(8,10)
+                order.Month = order.date.substring(5,7)
+                order.time = order.date.substring (11,16)
                 ipOrders.push(order)
             }
         })
@@ -45,8 +47,9 @@ export default {
         let doOrder = []
         state.orderList.forEach((order) => {
             if(order.status == "DO"){
-                order.Date = order.date.substring(0,10)
-                order.time = order.date.substring (11,19)
+                order.Date = order.date.substring(8,10)
+                order.Month = order.date.substring(5,7)
+                order.time = order.date.substring (11,16)
                 doOrder.push(order)
             }
         })

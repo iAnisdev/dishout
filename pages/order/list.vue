@@ -28,7 +28,7 @@
                                  <li class="row">
                                     Date:
                                     <span>
-                                    <b>{{order.Date}}</b>
+                                    <b>{{order.Date}}/{{order.Month }}</b>
                                     </span>
                                  </li>
                                  <li class="row">
@@ -74,7 +74,7 @@
                                  <li class="row">
                                     Date:
                                     <span>
-                                    <b>{{order.Date}}</b>
+                                    <b>{{order.Date}}/{{order.Month }}</b>
                                     </span>
                                  </li>
                                  <li class="row">
@@ -120,7 +120,7 @@
                                  <li class="row">
                                     Date:
                                     <span>
-                                    <b>{{order.Date}}</b>
+                                    <b>{{order.Date}}/{{order.Month }}</b>
                                     </span>
                                  </li>
                                  <li class="row">

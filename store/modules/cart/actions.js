@@ -47,8 +47,9 @@ export default {
         Api().get('/order/'+data , {headers : headers}).then((res) =>{
         if(res.status == 200){
             let order = res.data
-            order.Date = order.date.substring(0,10)
-            order.time = order.date.substring (11,19)
+            order.Date = order.date.substring(8,10)
+            order.Month = order.date.substring(5,7)
+            order.time = order.date.substring (11,16)
             commit('set_order' , order)
         }
         }

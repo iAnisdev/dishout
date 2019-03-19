@@ -3,8 +3,9 @@
       <div class="text-center">
          <img class="bg--image" :src="loadRest.banner_img_url"/>
       </div>
-      <Card :bordered="false">
-         <h3>{{loadRest.name}}</h3>
+      <div class="resInfo">
+          <Card  :bordered="false">
+         <h2>{{loadRest.name}}</h2>
          <p>{{loadRest.description}}</p>
 
          <!--
@@ -27,30 +28,42 @@
             -->
 
       </Card>
-      <div class="container"  v-for="menu in loadRest.menus" :key="menu.owner">
-         <Tabs >
-            <TabPane v-for="group in menu.groups" :key="group.id" :label="group.name">
-               <div v-for="item in group.items" :key="item.id">
-                  <nuxt-link :to="`../item/${item.id}?restaurant=${loadRest.name}&menu=${menu.id}`" class="itemtab">
-                     <Card dis-hover :bordered="false">
-                        <Row class="row--justify">
-                           <Col span="12">
-                           <h4>{{item.name}}</h4>
-                           <p style="margin-top: 1px; textalign: justify">{{item.description}}</p>
-                           </Col>
-                           <Col span="4">
-                           </Col>
-                           <Col span="8">
-                           <img :src="item.img_url" :alt="item.name" class="item--img">
-                           </Col>
-                        </Row>
-                     </Card>
-                     <Divider />
-                  </nuxt-link>
-               </div>
-            </TabPane>
-         </Tabs>
       </div>
+      <div class="container"  v-for="(menu , index) in loadRest.menus" :key="index">
+      <Select v-model="menuGroup">
+        <Option v-for="group in menu.groups" :key="group.id" :value="group.name">{{ group.name }}</Option>
+    </Select>
+     
+    </div>
+     <div v-for="menu in menus" :key="menu.id">
+        <div v-if="menu.name == menuGroup">
+            <div v-if="menu.items.length">
+                <div v-for="item in menu.items" :key="item.id">
+                <nuxt-link :to="`../item/${item.id}?restaurant=${loadRest.name}&menu=${menu.id}`" class="itemtab">
+                        <Card dis-hover :bordered="false">
+                            <Row class="row--justify">
+                            <Col span="12">
+                            <h4>{{item.name}}</h4>
+                            <p style="margin-top: 1px; textalign: justify">{{item.description}}</p>
+                            </Col>
+                            <Col span="4">
+                            </Col>
+                            <Col span="8">
+                            <img :src="item.img_url" :alt="item.name" class="item--img">
+                            </Col>
+                            </Row>
+                        </Card>
+                        <Divider />
+                    </nuxt-link>
+               </div>
+            </div>
+            <div v-else>
+                <Card dis-hover :bordered="false">
+                    <h4>no item in {{menu.name}} menu</h4>
+                </Card>
+            </div>
+        </div>
+        </div>
       <cart />
    </div>
 </template>
@@ -68,8 +81,9 @@ export default {
     },
     data() {
         return {
-            menuTiming: '',
-            group: 'breakfast',
+            menuGroup: '',
+            menus: [],
+            selectedMenu: {}
         }
     },
     computed: {
@@ -84,6 +98,29 @@ export default {
             clearSpecificRest: 'clearSpecificRest',
             getCartFromLS: 'getCartFromLS'
         }),
+    },
+    watch: {
+        loadRest(newVal , oldVal) {
+            let that = this
+            if(newVal){
+               if(newVal.menus.length){
+                    newVal.menus.forEach(group => {
+                    group.groups.forEach(menu => {
+                        that.menus.push(menu)
+                    })
+                });
+                that.menuGroup = that.menus[0].name
+                
+               }
+            }
+        },
+        menuGroup: (newVal , oldVal) =>{
+            let that = this
+            if(newVal){
+                
+            }
+        }
+
     },
     mounted() {
         let that = this
@@ -104,14 +141,19 @@ export default {
 <style scoped>
 .page{
     max-width: 100vw;
+    background: linear-gradient(#eee, white);
+    min-height: 100vh;
+}
+.resInfo{
+    margin-top: -5vh;
 }
 .ivu-card{
     width: 100%;
-    
     margin: auto;
 }
 .text-center {
-    text-align: center
+    text-align: center;
+    background-color: white;
 }
 .bg--image{
     max-height: 45vh;
@@ -145,6 +187,7 @@ export default {
 }
 .itemtab{
     color: #515a6e;
+    margin-top: 2vh;
 }
 </style>
 

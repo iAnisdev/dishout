@@ -1,6 +1,6 @@
 <template>
    <div>
-      <Menu mode="horizontal" :theme="'dark'" active-name="1">
+      <Menu mode="horizontal" active-name="1">
          <div class="row">
             <h3 class="hearder">Order Info</h3>
             <h4>
@@ -9,7 +9,7 @@
          </div>
       </Menu>
       <div class="container">
-         <Card>
+         <Card :bordered="false">
             <p slot="title">
                Order status
             </p>
@@ -41,7 +41,7 @@
                   <li class="row">
                      Date:
                      <span>
-                     <b>{{orderInfo.Date}}</b>
+                     <b>{{orderInfo.Date}}/{{orderInfo.Month }}</b>
                      </span>
                   </li>
                   <li class="row">
@@ -56,7 +56,7 @@
                   <li>
                      <ol >
                         <li  v-for="item in orderInfo.items" :key="item.id">
-                           <Card style="margin-top: 1vh;">
+                           <Card style="margin-top: 1vh;" :bordered="false">
                               <div  class="row">
                                  <span>Item Name: </span>
                                  <b>{{item.item.name }}</b>
@@ -150,12 +150,16 @@ export default {
 }
 </script>
 <style scoped>
-.ivu-menu-dark{
+.page{
+    max-width: 100vw;
+    background: linear-gradient(#eee, #fff);
+    min-height: 100vh;
+}
+.ivu-menu{
     padding: 0px 8vw;
+    background-color: #f8f9fa;
 }
-.hearder{
-    color: white;
-}
+
 .container{
     width: 80vw;
     padding-top: 2vh;
