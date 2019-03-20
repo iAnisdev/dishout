@@ -56,6 +56,18 @@ export default {
         ).catch((err) => 
         console.log('err is ' ,err.message))
     },
+
+    deleteOrder:  ({commit} , data) => {
+        let  headers = {
+        'Authorization': 'Token 5822cd005a14cf7212bffb51c2bab69d87460dae',
+        'Content-Type': 'application/json'
+        }
+        Api().delete('/order/'+data , {headers : headers}).then((res) =>{
+        console.log(res)
+        }
+        ).catch((err) => 
+        console.log('err is ' ,err.message))
+    },
     getOrderList: ({commit} , data) => {
         let that = data
         let  headers = {

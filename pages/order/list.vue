@@ -9,38 +9,42 @@
             <TabPane label="In Coming">
                <div class="container-fluid">
                   <div v-for="order in IPOrders" :key="order.id">
-                     <nuxt-link :to="`../order/${order.id}`" >
                         <Card class="order" :bordered="false">
                            <div style="text-align:center">
-                              <ul>
-                                 <li class="row">
-                                    Table No:
-                                    <span>
-                                    <b>{{order.table_id}}</b>
-                                    </span>
-                                 </li>
-                                 <li class="row">
-                                    Time:
-                                    <span>
-                                    <b>{{order.time}}</b>
-                                    </span>
-                                 </li>
-                                 <li class="row">
-                                    Date:
-                                    <span>
-                                    <b>{{order.Date}}/{{order.Month }}</b>
-                                    </span>
-                                 </li>
-                                 <li class="row">
-                                    Total:
-                                    <span>
-                                    <b>${{order.price}}</b>
-                                    </span>
-                                 </li>
-                              </ul>
+                              <div class="row-end">
+                                 <Icon type="md-trash"  size="24" @click="delOrder(order)"/>
+                                 <Icon type="md-create" size="24" />
+                              </div>
+                              <nuxt-link :to="`../order/${order.id}`" >
+                                 <ul class="order">
+                                    <li class="row">
+                                       Table No:
+                                       <span>
+                                       <b>{{order.table_id}}</b>
+                                       </span>
+                                    </li>
+                                    <li class="row">
+                                       Time:
+                                       <span>
+                                       <b>{{order.time}}</b>
+                                       </span>
+                                    </li>
+                                    <li class="row">
+                                       Date:
+                                       <span>
+                                       <b>{{order.Date}}/{{order.Month }}</b>
+                                       </span>
+                                    </li>
+                                    <li class="row">
+                                       Total:
+                                       <span>
+                                       <b>${{order.price}}</b>
+                                       </span>
+                                    </li>
+                                 </ul>
+                              </nuxt-link>
                            </div>
                         </Card>
-                     </nuxt-link>
                      <Divider />
                   </div>
                </div>
@@ -55,38 +59,42 @@
             <TabPane label="In progress">
                <div class="container-fluid" v-if="INOrders.length">
                   <div v-for="order in INOrders" :key="order.id">
-                     <nuxt-link :to="`../order/${order.id}`" >
-                        <Card class="order" :bordered="false">
+                      <Card class="order" :bordered="false">
                            <div style="text-align:center">
-                              <ul>
-                                 <li class="row">
-                                    Table No:
-                                    <span>
-                                    <b>{{order.table_id}}</b>
-                                    </span>
-                                 </li>
-                                 <li class="row">
-                                    Time:
-                                    <span>
-                                    <b>{{order.time}}</b>
-                                    </span>
-                                 </li>
-                                 <li class="row">
-                                    Date:
-                                    <span>
-                                    <b>{{order.Date}}/{{order.Month }}</b>
-                                    </span>
-                                 </li>
-                                 <li class="row">
-                                    Total:
-                                    <span>
-                                    <b>${{order.price}}</b>
-                                    </span>
-                                 </li>
-                              </ul>
+                              <div class="row-end">
+                                 <Icon type="md-trash"  size="24" @click="delOrder(order)"/>
+                                 <Icon type="md-create" size="24" />
+                              </div>
+                              <nuxt-link :to="`../order/${order.id}`" >
+                                 <ul class="order">
+                                    <li class="row">
+                                       Table No:
+                                       <span>
+                                       <b>{{order.table_id}}</b>
+                                       </span>
+                                    </li>
+                                    <li class="row">
+                                       Time:
+                                       <span>
+                                       <b>{{order.time}}</b>
+                                       </span>
+                                    </li>
+                                    <li class="row">
+                                       Date:
+                                       <span>
+                                       <b>{{order.Date}}/{{order.Month }}</b>
+                                       </span>
+                                    </li>
+                                    <li class="row">
+                                       Total:
+                                       <span>
+                                       <b>${{order.price}}</b>
+                                       </span>
+                                    </li>
+                                 </ul>
+                              </nuxt-link>
                            </div>
                         </Card>
-                     </nuxt-link>
                      <Divider />
                   </div>
                </div>
@@ -101,38 +109,42 @@
             <TabPane label="Done">
                <div class="container-fluid" v-if="DOOrders.length">
                   <div v-for="order in DOOrders" :key="order.id">
-                     <nuxt-link :to="`../order/${order.id}`" >
-                        <Card class="order" :bordered="false">
+                      <Card class="order" :bordered="false">
                            <div style="text-align:center">
-                              <ul>
-                                 <li class="row">
-                                    Table No:
-                                    <span>
-                                    <b>{{order.table_id}}</b>
-                                    </span>
-                                 </li>
-                                 <li class="row">
-                                    Time:
-                                    <span>
-                                    <b>{{order.time}}</b>
-                                    </span>
-                                 </li>
-                                 <li class="row">
-                                    Date:
-                                    <span>
-                                    <b>{{order.Date}}/{{order.Month }}</b>
-                                    </span>
-                                 </li>
-                                 <li class="row">
-                                    Total:
-                                    <span>
-                                    <b>${{order.price}}</b>
-                                    </span>
-                                 </li>
-                              </ul>
+                              <div class="row-end">
+                                 <Icon type="md-trash"  size="24" @click="delOrder(order)"/>
+                                 <Icon type="md-create" size="24" />
+                              </div>
+                              <nuxt-link :to="`../order/${order.id}`" >
+                                 <ul class="order">
+                                    <li class="row">
+                                       Table No:
+                                       <span>
+                                       <b>{{order.table_id}}</b>
+                                       </span>
+                                    </li>
+                                    <li class="row">
+                                       Time:
+                                       <span>
+                                       <b>{{order.time}}</b>
+                                       </span>
+                                    </li>
+                                    <li class="row">
+                                       Date:
+                                       <span>
+                                       <b>{{order.Date}}/{{order.Month }}</b>
+                                       </span>
+                                    </li>
+                                    <li class="row">
+                                       Total:
+                                       <span>
+                                       <b>${{order.price}}</b>
+                                       </span>
+                                    </li>
+                                 </ul>
+                              </nuxt-link>
                            </div>
                         </Card>
-                     </nuxt-link>
                      <Divider />
                   </div>
                </div>
@@ -201,8 +213,13 @@ export default {
     },
     methods: {
         ...mapActions({
-            getOrderList: 'getOrderList'
-        })
+            getOrderList: 'getOrderList',
+            deleteOrder: 'deleteOrder'
+        }),
+        delOrder(order) {
+           let that = this
+           that.deleteOrder(order.id)
+        }
     },
     mounted(){
         let that = this
@@ -227,9 +244,14 @@ export default {
 }
 .container-fluid{
     width: 80vw;
-    padding-top: 2vh;
+    padding-top: 1vh;
     vertical-align: center;
     margin: auto;
+}
+.row-end{
+   display: flex;
+   flex-direction: row;
+   justify-content: flex-end;
 }
 ul , ol {
     list-style-type: none;

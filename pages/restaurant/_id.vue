@@ -15,32 +15,37 @@
                 <Tag >Pizza</Tag>
                 <Tag >Burger</Tag>
             </Row>
+            -->
             <Row class="row">
             <Col>
                 <Icon type="md-time" size="24"/>
                 <Badge :text="'15-25 min'"  type="success"></Badge>
             </Col>
+            <!--
             <Col style="margin-left: 2px;">
                 <Icon type="ios-star" size="24" color="#FFD300"/>
                 <span>4.6 (200)</span>
             </Col>
-            </Row>
             -->
+            </Row>
 
       </Card>
       </div>
-      <div class="container"  v-for="(menu , index) in loadRest.menus" :key="index">
-      <Select v-model="menuGroup">
-        <Option v-for="group in menu.groups" :key="group.id" :value="group.name">{{ group.name }}</Option>
+      <div class="container">
+          <div class="container-select"  v-for="(menu , index) in loadRest.menus" :key="index">
+      <Select v-model="menuGroup" size="large" style="width:100px; border: none">
+        <Option v-for="group in menu.groups" :key="group.id" :value="group.name" >{{ group.name }}</Option>
     </Select>
      
     </div>
-     <div v-for="menu in menus" :key="menu.id">
+      </div>
+     <div class="container"  >
+         <div v-for="menu in menus" :key="menu.id">
         <div v-if="menu.name == menuGroup">
             <div v-if="menu.items.length">
                 <div v-for="item in menu.items" :key="item.id">
                 <nuxt-link :to="`../item/${item.id}?restaurant=${loadRest.name}&menu=${menu.id}`" class="itemtab">
-                        <Card dis-hover :bordered="false">
+                        <Card dis-hover :bordered="false" width="100%">
                             <Row class="row--justify">
                             <Col span="12">
                             <h4>{{item.name}}</h4>
@@ -66,6 +71,7 @@
         </div>
       <cart />
    </div>
+     </div>
 </template>
 
 <script>
@@ -145,7 +151,15 @@ export default {
     min-height: 100vh;
 }
 .resInfo{
-    margin-top: -5vh;
+    width: 86%;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    margin-top: -8vh;
+    box-shadow: 1px 1px 1px 1px #d3d3d3;
+}
+ivu-select-selection {
+    border: 3px solid red;;
 }
 .ivu-card{
     width: 100%;
@@ -177,9 +191,17 @@ export default {
     justify-content: space-between;
 }
 .container{
+    width: 86%;
+    display: flex;
+    padding-top: 1vh;
+    justify-content: center;
+    margin: auto;
+}
+.container-select{
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
+    background-color: white;
     margin: auto;
 }
 .item--img{

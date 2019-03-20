@@ -9,25 +9,23 @@
          </span>
       </Menu>
       <div class="content">
-         <div  v-for="(rest , index) in restList" :key='index'>
-            <nuxt-link :to="`../restaurant/${rest.id}`" class="itemtab">
-               <div class="rest">
-                  <div class="text-center">
-                     <img class="bg--image" :src="rest.banner_img_url"/>
-                  </div>
-                   
-                  <Card :bordered="false">
-                     <a href="#" slot="extra" @click.prevent="delRest(rest)">
-                        <Tooltip :content="`delete ${rest.name}`" placement="top-start">
-                           <Icon type="md-trash" size="24" />
-                        </Tooltip>
-                  </a>
-                     <h3>{{rest.name}}</h3>
-                     <p class="text-justify">{{rest.description}}</p>
-                  </Card>
-               </div>
-            </nuxt-link>
-         </div>
+        <Form label-position="top">
+        <FormItem label="Restaurant Name">
+            <Input v-model="rest.name" />
+        </FormItem>
+        <FormItem label="Description">
+            <Input v-model="rest.descp" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter Restaurant description" />
+        </FormItem>
+        <Upload
+        type="drag"
+        action="//jsonplaceholder.typicode.com/posts/">
+        <div style="padding: 20px 0">
+            <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
+            <p>Click or drag files here to upload</p>
+        </div>
+    </Upload>
+    <Button type="success" @click="addRestaurant()" long style="margin-top: 5vh;">Create Restaurant</Button>
+    </Form>
       </div>
       <footer class="footer">
          <h3>
@@ -42,7 +40,7 @@
             <h4>user email</h4>
             <Divider />
             <Menu active-name="1-1" class="menu-side" :open-names="['1']">
-                <MenuItem name="0" >
+                <MenuItem name="0" to="/">
                 <Icon type="ios-home" />
                 Home
             </MenuItem>
@@ -81,48 +79,38 @@ import {
 } from 'vuex'
 
 export default {
-    data() {
+     data() {
         return {
-            drawer: false
+            drawer: false,
+            rest: {
+                name: '',
+                descp: ''
+            }
         }
     },
     computed: {
-        ...mapGetters({
-            restList: 'restList'
-        })
+
     },
     methods: {
         ...mapActions({
-            getAllRest: 'getAllRest',
-            getCartFromLS: 'getCartFromLS',
-            deleteRest: 'deleteRest'
+            addNewRestaurant: 'addNewRestaurant'
         }),
-        delRest(rest){
-           let that = this
-           let data = {
-              id: rest.id,
-              that: that
-           }
-            this.$Modal.confirm({
-                    title: 'Delete',
-                    content: `Are you sure to delete ${rest.name} restaurant`,
-                    width: '350px',
-                    onOk: () => {
-                       this.deleteRest(data)
-                    },
-                    onCancel: () => {
-                    }
-                });
+        addRestaurant (){
+            let that = this
+            that.$Spin.show();
+            let data = {
+                owner: 6,
+                name: that.rest.name,
+                description: that.rest.descp,
+                stripe_code: '000',
+                banner_img_url: 'https://static.iris.net.co/semana/upload/images/2014/10/31/407544_104518_1.jpg',
+                that: that
+            }
+            that.addNewRestaurant(data)
         }
-    },
-    mounted() {
-       let that = this
-        this.getAllRest(that)
-        this.getCartFromLS()
     }
 }
 </script>
-
 <style scoped>
 .ivu-menu{
   background-color: #f8f9fa;
@@ -136,42 +124,11 @@ export default {
 .content{
   min-height: 85vh;
   width: 100%;
-  padding: 0px 20px 10px 20px;
+  padding: 2vh 20px 10px 20px;
   background-color: #eee;;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-}
-.rest{
-  margin-top: 10px;
-  border-radius: 10px;
-}
-.ivu-card{
-    top: -1vh;
-    border-radius: 0px 0px 5px 5px;
-}
-.text-center{
-  text-align: center;
-  background-color: #fff;
-  border-radius: 5px 5px 0px 0px ;
-}
-.bg--image{
-    max-width: 100%;
-    max-height: 30vh;
-    border-radius: 5px 5px 0px 0px ;
-}
-.itemtab{
-    color: #515a6e;
-}
-.name{
-    margin-top: 1vh;
-}
-.menu-side{
-    background-color: white;
-    left: 0;
-}
-.ivu-modal-wrap{
-   width: 350px;
 }
 .footer{
    bottom:0;

@@ -19,6 +19,7 @@
                <Tag color="success" v-if="orderInfo.status == 'DO'">Done</Tag>
             </a>
             <div >
+             
                <ul>
                   <li class="row">
                      Table No:
@@ -56,7 +57,7 @@
                   <li>
                      <ol >
                         <li  v-for="item in orderInfo.items" :key="item.id">
-                           <Card style="margin-top: 1vh;" :bordered="false">
+                           <Card style="margin-top: 1vh; box-shadow: none;" :bordered="false">
                               <div  class="row">
                                  <span>Item Name: </span>
                                  <b>{{item.item.name }}</b>
@@ -159,7 +160,9 @@ export default {
     padding: 0px 8vw;
     background-color: #f8f9fa;
 }
-
+.ivu-card{
+    box-shadow: 1px 1px 1px 1px #d3d3d3;
+}
 .container{
     width: 80vw;
     padding-top: 2vh;
@@ -169,6 +172,11 @@ export default {
 }
 .container-fluid{
     width: 70vw;
+}
+.row-end{
+   display: flex;
+   flex-direction: row;
+   justify-content: flex-end;
 }
 ul , ol {
     list-style-type: none;

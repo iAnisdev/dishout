@@ -3,13 +3,15 @@
       <div class="bg">
          <img class="bg--image" :src="item.img_url"/>
       </div>
-      <Card :bordered="false"  style="margin-top: -5vh">
+      <div class="itemInfo">
+      <Card :bordered="false">
         <div class="content">
              <h3>{{item.name}}</h3>
             <h4> ${{item.price}}</h4>
             <p class="text-justify">{{item.description}}</p>
         </div>
       </Card>
+      </div>
          <div v-for="group in item.radio_option_groups" :key="group.id">
             <Card style="margin-top: 2vh" :bordered="false">
                    <p slot="title">
@@ -223,6 +225,15 @@ export default {
 .bg--image{
     width: 100%;
     max-height: 35vh;
+}
+.itemInfo{
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    margin-top: -8vh;
+    box-shadow: 1px 1px 1px 1px #d3d3d3;
+    margin-top: -10vh;
 }
 .content{
     padding: 1px 1vw 2vh 1vw;
