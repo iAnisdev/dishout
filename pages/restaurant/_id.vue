@@ -40,11 +40,10 @@
       </Card>
       </div>
       <div class="container">
-          <div class="container-select"  v-for="(menu , index) in loadRest.menus" :key="index">
-      <Select v-model="menuGroup" size="large" style="width:100px; border: none">
-        <Option v-for="group in menu.groups" :key="group.id" :value="group.name" >{{ group.name }}</Option>
-    </Select>
-     
+          <div class="container-select"  v-for="(menus , index) in loadRest.menus" :key="index">
+            <Select v-model="menuGroup" size="large" style="width:100px; border: none">
+                <Option v-for="group in menus.groups" :key="group.id" :value="group.name" >{{ group.name }}</Option>
+            </Select>
     </div>
       </div>
      <div class="container"  >
@@ -52,7 +51,7 @@
         <div v-if="menu.name == menuGroup">
             <div v-if="menu.items.length">
                 <div v-for="item in menu.items" :key="item.id">
-                <nuxt-link :to="`../item/${item.id}?restaurant=${loadRest.name}&menu=${menu.id}`" class="itemtab">
+                <nuxt-link :to="`../item/${item.id}?restaurant=${loadRest.name}&menu=${menuId}`" class="itemtab">
                         <Card dis-hover :bordered="false" width="100%">
                             <Row class="row--justify">
                             <Col span="12">
@@ -97,7 +96,8 @@ export default {
         return {
             menuGroup: '',
             menus: [],
-            selectedMenu: {}
+            selectedMenu: {},
+            menuId: null
         }
     },
     computed: {
@@ -124,7 +124,7 @@ export default {
                     })
                 });
                 that.menuGroup = that.menus[0].name
-                
+                that.menuId = that.menus[0].id
                }
             }
         },
