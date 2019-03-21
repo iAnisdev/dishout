@@ -21,7 +21,7 @@
         action="//jsonplaceholder.typicode.com/posts/">
         <div style="padding: 20px 0">
             <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
-            <p>Click or drag files here to upload</p>
+            <p>Click or drag Logo here to upload</p>
         </div>
     </Upload>
     <Button type="success" @click="addRestaurant()" long style="margin-top: 5vh;">Create Restaurant</Button>
@@ -39,7 +39,7 @@
             <h3 class="name"><b>user name</b></h3>
             <h4>user email</h4>
             <Divider />
-            <Menu active-name="1-1" class="menu-side" :open-names="['1']">
+            <Menu active-name="4" class="menu-side" :open-names="['1']">
                 <MenuItem name="0" to="/">
                 <Icon type="ios-home" />
                 Home
@@ -49,20 +49,20 @@
                      <Icon type="ios-filing" />
                      Order List
                   </template>
-                  <MenuItem name="1-1" to="./order/list">
+                  <MenuItem name="1-1" to="../order/list">
                      <Icon type="md-arrow-down" />
                      In Coming
                   </MenuItem>
-                  <MenuItem name="1-2" to="./order/list">
+                  <MenuItem name="1-2" to="../order/list">
                      <Icon type="ios-clock-outline" />
                      In Progress
                   </MenuItem>
-                  <MenuItem name="1-3" to="./order/list">
+                  <MenuItem name="1-3" to="../order/list">
                      <Icon type="ios-checkmark-circle-outline" />
                      Done
                   </MenuItem>
                </Submenu>
-                <MenuItem name="4"  to="./restaurant/create" >
+                <MenuItem name="4">
                 <Icon type="md-add" />
                 Create restaurant
             </MenuItem>
@@ -99,11 +99,11 @@ export default {
             let that = this
             that.$Spin.show();
             let data = {
-                owner: 6,
+                //owner: 6,
                 name: that.rest.name,
                 description: that.rest.descp,
-                stripe_code: '000',
-                banner_img_url: 'https://static.iris.net.co/semana/upload/images/2014/10/31/407544_104518_1.jpg',
+                stripe_code: '---',
+                banner_img_url: '',
                 that: that
             }
             that.addNewRestaurant(data)

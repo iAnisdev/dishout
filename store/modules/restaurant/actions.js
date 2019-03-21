@@ -14,9 +14,9 @@ export default {
     },
     getSpecificRest: ({commit} , data) => {
        let that = data.that
-        Api().get(`/restaurant/${data.id}`).then((res)=>
-        commit('set_rest' , res.data),
-        ).catch((err) => 
+        Api().get(`/restaurant/${data.id}`).then((res)=>{
+         commit('set_rest' , res.data)
+        }).catch((err) => 
         console.log('err is ' ,err))
         that.$Spin.hide();
      },
@@ -36,16 +36,16 @@ export default {
   },
    addNewRestaurant: ({commit} , data ) => {
       let  headers = {
-         'Authorization': 'Token 17aff8f22e1c8c7d754203637e3317f001fc92d4',
+         'Authorization': 'Token 5822cd005a14cf7212bffb51c2bab69d87460dae',
          'Content-Type': 'application/json'
          }
       let that = data.that 
       delete data.that
       console.log(data)
-      Api().post('/restaurant/' , data  , {headers : headers}).then((res)=>
+      Api().post('/restaurant' , JSON.stringify(data)  , {headers: headers}).then((res)=>
       console.log(res)
       ).catch((err) => 
-      console.log('err is ' ,err))
+      console.log('err is ' ,{err}))
       that.$Spin.hide();
    },
    getSpecificItem: ({commit} , data) => {

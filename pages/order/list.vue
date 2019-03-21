@@ -12,8 +12,7 @@
                         <Card class="order" :bordered="false">
                            <div style="text-align:center">
                               <div class="row-end">
-                                 <Icon type="md-trash"  size="24" @click="delOrder(order)"/>
-                                 <Icon type="md-create" size="24" />
+                                 <Icon type="md-create" size="24" @click="update(order)"/>
                               </div>
                               <nuxt-link :to="`../order/${order.id}`" >
                                  <ul class="order">
@@ -62,8 +61,7 @@
                       <Card class="order" :bordered="false">
                            <div style="text-align:center">
                               <div class="row-end">
-                                 <Icon type="md-trash"  size="24" @click="delOrder(order)"/>
-                                 <Icon type="md-create" size="24" />
+                                 <Icon type="md-create" size="24" @click="update(order)"/>
                               </div>
                               <nuxt-link :to="`../order/${order.id}`" >
                                  <ul class="order">
@@ -111,10 +109,6 @@
                   <div v-for="order in DOOrders" :key="order.id">
                       <Card class="order" :bordered="false">
                            <div style="text-align:center">
-                              <div class="row-end">
-                                 <Icon type="md-trash"  size="24" @click="delOrder(order)"/>
-                                 <Icon type="md-create" size="24" />
-                              </div>
                               <nuxt-link :to="`../order/${order.id}`" >
                                  <ul class="order">
                                     <li class="row">
@@ -165,12 +159,10 @@
             <h4>user email</h4>
             <Divider />
             <Menu active-name="1-1" class="menu-side" :open-names="['1']">
-               <Submenu name="0" to="../index">
-                  <template slot="title">
-                     <Icon type="ios-home" />
-                     Home
-                  </template>
-               </Submenu>
+                <MenuItem name="0" to="/">
+                <Icon type="ios-home" />
+                Home
+            </MenuItem>
                <Submenu name="1">
                   <template slot="title">
                      <Icon type="ios-filing" />
@@ -191,6 +183,49 @@
             </Menu>
          </div>
       </Drawer>
+       <Modal
+        v-model="updateModel"
+        title="Update Order Status"
+        ok-text="Update Order"
+        @on-ok="updateStatus()"
+        width="300">
+         <ul class="order">
+         <li class="row">
+            Table No:
+            <span>
+            <b>{{targetOrder.table_id}}</b>
+            </span>
+         </li>
+         <li class="row">
+            Time:
+            <span>
+            <b>{{targetOrder.time}}</b>
+            </span>
+         </li>
+         <li class="row">
+            Date:
+            <span>
+            <b>{{targetOrder.Date}}/{{targetOrder.Month }}</b>
+            </span>
+         </li>
+         <li class="row">
+            Total:
+            <span>
+            <b>${{targetOrder.price}}</b>
+            </span>
+         </li>
+          <li class="row">
+            Status:
+         </li>
+         <li>
+            <Select v-model="currentStatus" style="width:100%">
+               <Option value="IN">Incoming</Option>
+               <Option value="IP">IN Progress</Option>
+               <Option value="DO">Done</Option>
+            </Select>
+         </li>
+      </ul>
+      </Modal>
    </div>
 </template>
 <script>
@@ -201,7 +236,10 @@ import {
 export default {
       data(){
         return {
-           drawer: false
+           drawer: false,
+           updateModel: false,
+           targetOrder: {},
+           currentStatus: ''
         }
     },
     computed: {
@@ -214,11 +252,29 @@ export default {
     methods: {
         ...mapActions({
             getOrderList: 'getOrderList',
-            deleteOrder: 'deleteOrder'
+            updateSpecificOrder: 'updateSpecificOrder'
         }),
-        delOrder(order) {
-           let that = this
-           that.deleteOrder(order.id)
+        update (order) {
+           this.updateModel = true,
+           this.targetOrder = order
+           this.currentStatus = order.status
+        },
+        updateStatus (){
+           let that = this 
+           if(that.targetOrder.status == that.currentStatus){
+              console.log('same')
+           }else if(that.targetOrder.status == 'IP'  && that.currentStatus == "IN"){
+            this.$Modal.error({
+               title: 'Not allowed',
+               content: 'Cannot change In progress status back to incoming'
+             });
+           }else {
+              let data = {
+                 id: that.targetOrder.id,
+                 status: that.currentStatus
+              }
+              that.updateSpecificOrder(data)
+           }
         }
     },
     mounted(){

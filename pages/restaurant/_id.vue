@@ -5,8 +5,16 @@
       </div>
       <div class="resInfo">
           <Card  :bordered="false">
-         <h2>{{loadRest.name}}</h2>
-         <p>{{loadRest.description}}</p>
+            <div class="row--space">
+                <div>
+                <h2>{{loadRest.name}}</h2>
+                <p>{{loadRest.description}}</p>
+                </div>
+                <nuxt-link :to="`./edit/${loadRest.id}`">
+                <Icon type="md-create" size="24" />
+                </nuxt-link>
+            </div>
+                             
 
          <!--
             <Row class="row">
@@ -69,8 +77,8 @@
             </div>
         </div>
         </div>
-      <cart />
    </div>
+      <cart />
      </div>
 </template>
 
@@ -169,6 +177,11 @@ ivu-select-selection {
     text-align: center;
     background-color: white;
 }
+.row--space{
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+}
 .bg--image{
     max-height: 45vh;
     max-width: 100vw;
@@ -190,6 +203,7 @@ ivu-select-selection {
     flex-direction: row;
     justify-content: space-between;
 }
+
 .container{
     width: 86%;
     display: flex;

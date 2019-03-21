@@ -17,24 +17,26 @@
                    <p slot="title">
                   {{group.description}}
                </p>
-               <p  slot="extra" v-if="group.min_selectable && !selected"> <Tag color="success">Required</Tag></p>
+               <p  slot="extra" v-if="group.min_selectable && !selected"> <Tag color="default">Required</Tag></p>
                <p  slot="extra" v-if="group.min_selectable && selected"><Icon type="ios-checkmark-circle" color="#19be6b" size="24" /></p> 
                <RadioGroup v-model="modifier" vertical v-for="option in group.options" :key="option.id" >
                   <Radio :label="option.name" size="large">
-                     <span>{{option.name}}</span>
+                     <span class="option">{{option.name}}</span>
                   </Radio>
+                  <Divider />
                </RadioGroup>
             </Card>
             <Card style="margin-top: 2vh" :bordered="false">
                <p slot="title">condiments</p>
                <CheckboxGroup v-model="condiments" v-for="option in item.options" :key="option.id">
                   <Checkbox :label="option.name" size="large">
-                     <span style="text-algn: left; left:0;">{{option.name}}</span>
+                     <h4 style="text-algn: left; left:0;">{{option.name}}</h4>
                      <span></span>
                      <span></span>
                      <span></span>
-                     <span>+${{option.price}}</span>
+                     <h4>+${{option.price}}</h4>
                   </Checkbox>
+                  <Divider />
                </CheckboxGroup>
             </Card>
          </div>
@@ -193,9 +195,7 @@ export default {
                 that.condiments_Arr = []
                 that.price = that.item.price
             }
-        }
-    },
-    watch: {
+        },
         modifier(newVal , oldVal) {
             if(newVal) {
                 this.selected = true
@@ -249,6 +249,11 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+.option{
+    font-size: 14px;
+    font-weight: bold;
+    padding-left: 5vw;
 }
 .justify-center{
     display: flex;
