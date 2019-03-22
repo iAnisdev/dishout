@@ -1,13 +1,14 @@
 <template>
    <div class="page">
+    <Icon type="md-arrow-round-back" size="36" class="icon--back" @click="goBack()"/> 
       <div class="bg">
          <img class="bg--image" :src="item.img_url"/>
       </div>
-      <div class="itemInfo">
+      <div >
       <Card :bordered="false">
         <div class="content">
-             <h3>{{item.name}}</h3>
-            <h4> ${{item.price}}</h4>
+             <h4>{{item.name}}</h4>
+            <h3> ${{item.price}}</h3>
             <p class="text-justify">{{item.description}}</p>
         </div>
       </Card>
@@ -41,6 +42,13 @@
             </Card>
          </div>
       </Card>
+      <div class="row-center">
+        <div>
+        <Button type="error" shape="circle" icon="md-remove"  @click="remQuantity()"></Button>
+        <span class="quantity">{{quantity}}</span>
+        <Button type="primary" shape="circle" icon="md-add" @click="addQuantity()"></Button>
+        </div>
+      </div>
       <footer>
          <Button type="success" long @click="addtoCart(item)">
             <div class="justify-center">
@@ -66,6 +74,7 @@ export default {
             selected: false,
             condiments_Arr: [],
             condiments: [],
+            quantity: 1
         }
     },
     computed: {
@@ -109,8 +118,8 @@ export default {
                     let selected_item = {
                         name: item.name,
                         id: item.id,
-                        quantity: 1,
-                        price: that.price || item.price,
+                        quantity: that.quantity,
+                        price: that.price * that.quantity || item.price * that.quantity,
                         basePrice: that.price || item.price,
                         options: that.condiments_Arr,
                         radio_option_arr: item.radio_option_groups,
@@ -167,6 +176,19 @@ export default {
                 }
             }
             that.$Spin.hide()
+        },
+        goBack(){
+            this.$router.back()
+        },
+        addQuantity(){
+            this.quantity++
+        },
+        remQuantity(){
+            if(this.quantity > 1){
+                this.quantity--;
+            }else{
+                this.$Message.error(`quantity must be 1`);
+            }
         }
 
     },
@@ -217,7 +239,8 @@ export default {
 .page{
     max-width: 100vw;
     padding-bottom: 8vh;
-    background: linear-gradient(#eee, white);
+   font-family: 'Product Sans';
+    background: linear-gradient(#f5f5f5 , #f6f6f6 , #f7f7f7 , #f8f8f8 , #f9f9f9 , #fafafa , #fbfbfb , #fcfcfc , #fdfdfd ,#fefefe , #ffffff);
 }
 .bg{
     text-align: center;
@@ -255,6 +278,13 @@ export default {
     font-weight: bold;
     padding-left: 5vw;
 }
+.row-center{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-content: center;
+    align-items: center;
+}
 .justify-center{
     display: flex;
     flex-direction: row;
@@ -265,6 +295,20 @@ export default {
 }
 .head{
     background-color: #e8eaec;
+}
+.icon--back{
+    position: absolute;
+    left: 0;
+    color: white;
+    padding: 24px;
+}
+.quantity{
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    align-content: center;
+    align-self: center;
+    padding: 2px 8px 4px 8px;
 }
 footer{
     width: 100vw;

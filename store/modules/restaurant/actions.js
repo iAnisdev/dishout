@@ -2,14 +2,10 @@ import Api from '@/plugins/Api'
 
 export default {
     getAllRest: ({commit} , data) => {
-      let that = data
-      that.$Spin.show();
       Api().get('/restaurant').then((res)=> {
          commit('update_rest_list' , res.data)
-         that.$Spin.hide();
       }).catch((err) => {
          console.log('err is ' ,err)
-         that.$Spin.hide();
       })
     },
     getSpecificRest: ({commit} , data) => {
