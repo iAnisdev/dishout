@@ -1,7 +1,12 @@
 <template>
-   <div>
+   <div class="page">
       <Menu mode="horizontal" :theme="'dark'" active-name="1">
-         <h3 class="hearder"> <Icon size="24" @click="drawer = true" type="ios-menu" color="#ffffff"/> Order List</h3>
+          <div class="row">
+         <h3 class="hearder">
+    <Icon type="md-arrow-round-back" size="24" @click="goBack()"/> Order List</h3>
+      <h3>
+     <Icon size="24" @click="drawer = true" type="ios-menu" color="#ffffff"/> </h3>
+         </div>
                
       </Menu>
       <div class="container">
@@ -259,6 +264,9 @@ export default {
            this.targetOrder = order
            this.currentStatus = order.status
         },
+        goBack(){
+            this.$router.back()
+        },
         updateStatus (){
            let that = this 
            if(that.targetOrder.status == that.currentStatus){
@@ -286,6 +294,12 @@ export default {
 </script>
 
 <style scoped>
+.page{
+    max-width: 100vw;
+    background: linear-gradient(#f5f5f5 , #f6f6f6 , #f7f7f7 , #f8f8f8 , #f9f9f9 , #fafafa , #fbfbfb , #fcfcfc , #fdfdfd ,#fefefe , #ffffff);
+   font-family: 'Product Sans';
+    min-height: 100vh;
+}
 .ivu-menu-dark{
     padding: 0px 8vw;
 }

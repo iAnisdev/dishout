@@ -1,6 +1,7 @@
 <template>
-   <section class="">
-      <Menu mode="horizontal" :theme="'light'" active-name="1">
+   <section>
+     <div class="page">
+         <Menu mode="horizontal" :theme="'light'" active-name="1">
          <span class="container--row">
             <h4>Deats</h4>
             <h4>
@@ -29,6 +30,7 @@
             </nuxt-link>
          </div>
       </div>
+     </div>
       <footer class="footer">
          <h3>
             © 2019. All Rights Reserved.
@@ -117,7 +119,7 @@ export default {
     },
     mounted() {
        let that = this
-        this.getAllRest(that)
+        this.getAllRest()
         this.getCartFromLS()
     }
 }
@@ -126,6 +128,10 @@ export default {
 <style scoped>
 .ivu-menu{
   background-color: #f8f9fa;
+}
+.page{
+   font-family: 'Product Sans';
+   background: linear-gradient(#f5f5f5 , #f6f6f6 , #f7f7f7 , #f8f8f8 , #f9f9f9 , #fafafa , #fbfbfb , #fcfcfc , #fdfdfd ,#fefefe , #ffffff);
 }
 .container--row{
   padding: 0vh 5vw  0vh 5vw;
@@ -137,14 +143,15 @@ export default {
   min-height: 85vh;
   width: 100%;
   padding: 0px 20px 10px 20px;
-  background-color: #eee;;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
 }
 .rest{
-  margin-top: 10px;
-  border-radius: 10px;
+  margin-top: 12px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 1px 1px 1px 1px #d3d3d3;
 }
 .ivu-card{
     top: -1vh;
@@ -152,7 +159,6 @@ export default {
 }
 .text-center{
   text-align: center;
-  background-color: #fff;
   border-radius: 5px 5px 0px 0px ;
 }
 .bg--image{

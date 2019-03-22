@@ -1,5 +1,5 @@
 <template>
-   <section class="">
+   <section class="page">
       <Menu mode="horizontal" :theme="'light'" active-name="1">
          <span class="container--row">
             <h4>Deats</h4>
@@ -112,6 +112,10 @@ export default {
 }
 </script>
 <style scoped>
+.page{
+   font-family: 'Product Sans';
+   background: linear-gradient(#f5f5f5 , #f6f6f6 , #f7f7f7 , #f8f8f8 , #f9f9f9 , #fafafa , #fbfbfb , #fcfcfc , #fdfdfd ,#fefefe , #ffffff);
+}
 .ivu-menu{
   background-color: #f8f9fa;
 }

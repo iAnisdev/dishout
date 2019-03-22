@@ -1,7 +1,8 @@
 <template>
-   <section class="">
+   <section class="page">
       <Menu mode="horizontal" active-name="1">
-         <h3 class="hearder">Your Cart</h3>
+         <h3 class="hearder">
+    <Icon type="md-arrow-round-back" size="24" @click="goBack()"/>  Your Cart</h3>
       </Menu>
       <div class="container">
          <div>
@@ -100,11 +101,18 @@ export default {
         },
         ok() {
             this.$router.back()
-        }
+        },
+        goBack(){
+            this.$router.back()
+        },
     }
 }
 </script>
 <style scoped>
+.page{
+   font-family: 'Product Sans';
+    background: linear-gradient(#f5f5f5 , #f6f6f6 , #f7f7f7 , #f8f8f8 , #f9f9f9 , #fafafa , #fbfbfb , #fcfcfc , #fdfdfd ,#fefefe , #ffffff);
+}
 .ivu-menu{
     padding: 0px 8vw;
     background-color: #f8f9fa;

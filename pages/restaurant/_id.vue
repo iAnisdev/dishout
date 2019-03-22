@@ -1,9 +1,11 @@
 <template>
    <div class="page">
+    <Icon type="md-arrow-round-back" size="36" class="icon--back" @click="goBack()"/> 
       <div class="text-center">
          <img class="bg--image" :src="loadRest.banner_img_url"/>
       </div>
-      <div class="resInfo">
+      <div class="bg-gradient">
+          <div class="resInfo">
           <Card  :bordered="false">
             <div class="row--space">
                 <div>
@@ -39,13 +41,15 @@
 
       </Card>
       </div>
+      <Divider />
       <div class="container">
-          <div class="container-select"  v-for="(menus , index) in loadRest.menus" :key="index">
-            <Select v-model="menuGroup" size="large" style="width:100px; border: none">
+        <div class="container-select"  v-for="(menus , index) in loadRest.menus" :key="index">
+            <Select v-model="menuGroup" size="large" style="width:100px;" >
                 <Option v-for="group in menus.groups" :key="group.id" :value="group.name" >{{ group.name }}</Option>
             </Select>
-    </div>
+        </div>
       </div>
+      <Divider />
      <div class="container"  >
          <div v-for="menu in menus" :key="menu.id">
         <div v-if="menu.name == menuGroup">
@@ -55,7 +59,7 @@
                         <Card dis-hover :bordered="false" width="100%">
                             <Row class="row--justify">
                             <Col span="12">
-                            <h4>{{item.name}}</h4>
+                            <h2>{{item.name}}</h2>
                             <p style="margin-top: 1px; textalign: justify">{{item.description}}</p>
                             </Col>
                             <Col span="4">
@@ -78,6 +82,7 @@
         </div>
    </div>
       <cart />
+      </div>
      </div>
 </template>
 
@@ -112,6 +117,9 @@ export default {
             clearSpecificRest: 'clearSpecificRest',
             getCartFromLS: 'getCartFromLS'
         }),
+        goBack(){
+            this.$router.back()
+        }
     },
     watch: {
         loadRest(newVal , oldVal) {
@@ -155,8 +163,11 @@ export default {
 <style scoped>
 .page{
     max-width: 100vw;
-    background: linear-gradient(#eee, white);
     min-height: 100vh;
+   font-family: 'Product Sans';
+}
+.bg-gradient{
+    background: linear-gradient(#f5f5f5 , #f6f6f6 , #f7f7f7 , #f8f8f8 , #f9f9f9 , #fafafa , #fbfbfb , #fcfcfc , #fdfdfd ,#fefefe , #ffffff);
 }
 .resInfo{
     width: 86%;
@@ -175,7 +186,6 @@ ivu-select-selection {
 }
 .text-center {
     text-align: center;
-    background-color: white;
 }
 .row--space{
    display: flex;
@@ -215,11 +225,18 @@ ivu-select-selection {
     width: 100%;
     display: flex;
     justify-content: flex-start;
-    background-color: white;
     margin: auto;
 }
 .item--img{
     width: 100px;
+}
+.icon--back{
+    position: absolute;
+    left: 0;
+    padding: 24px;
+}
+.ivu-divider-horizontal{
+    margin: 12px 0;
 }
 .itemtab{
     color: #515a6e;

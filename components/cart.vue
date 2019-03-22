@@ -1,8 +1,7 @@
 <template>
    <nuxt-link to="/order">
         <footer v-if="show">
-        <h3 class="cart--total">${{cartPrice}}</h3>
-        <h4 class="cart--button">View Cart</h4>
+            <h4 class="cart--button">View Cart</h4>
         <h2 class="cart--size">{{cartSize}}</h2>
     </footer>
    </nuxt-link>
@@ -36,6 +35,7 @@ export default {
 footer{
     width: 100vw;
     position: fixed;
+    font-family: 'Product Sans';
     bottom: 0;
     background-color: #19be6b;
     color: white;
@@ -44,7 +44,12 @@ footer{
     flex-direction: row;
     justify-content: space-around;
     font-size: 16px;
-    padding: 1vh 5vw;
+    padding: 1vh 0px 1vh 30vw;
+}
+.row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 .cart--total{
     align-self: center;
