@@ -2,6 +2,7 @@
   <section class="page">
       <Menu mode="horizontal" :theme="'light'" active-name="1">
          <span class="container--row">
+            <Icon type="md-arrow-round-back" size="24" class="icon--back" @click="goBack()"/> 
             <h4>Edit {{rest.name}}</h4>
             <h4>
                <Icon size="24"  @click="drawer = true" type="ios-menu" />
@@ -112,10 +113,7 @@
             <Input v-model="targetMenu.name"></Input>
         </FormItem>
         <FormItem label="Menu Status">
-             <Select v-model="targetMenu.active">
-               <Option value="true">Active</Option>
-               <Option value="false">Inactive</Option>
-            </Select>
+              <Checkbox v-model="targetMenu.active" size="large">Active</Checkbox>
         </FormItem>
     </Form>
     </Modal>
@@ -184,7 +182,10 @@ export default {
                this.$Message.info('Clicked ok');
             },
          });
-        }
+        },
+      goBack(){
+         this.$router.back()
+      }
     },
     watch: {
        loadRest ( newVal , oldVal) {
@@ -237,10 +238,14 @@ ul , ol {
     margin-top: 1vh;
 }
 .container--row{
-  padding: 0vh 5vw  0vh 5vw;
+  padding: 0vh 2vw  0vh 2vw;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+.icon--back{
+    left: 0;
+    align-self: center;
 }
 .input{
    margin-top: 2vh;
