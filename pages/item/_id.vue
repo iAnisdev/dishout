@@ -7,7 +7,7 @@
       <div >
       <Card :bordered="false">
         <div class="content">
-             <h4>{{item.name}}</h4>
+             <h1>{{item.name}}</h1>
             <h3> ${{item.price}}</h3>
             <p class="text-justify">{{item.description}}</p>
         </div>
@@ -43,11 +43,11 @@
          </div>
       </Card>
       <div class="row-center">
-        <div>
-        <Button type="error" shape="circle" icon="md-remove"  @click="remQuantity()"></Button>
+        <Card :bordered="false">
+        <Button class="btn" icon="md-remove"  @click="remQuantity()"></Button>
         <span class="quantity">{{quantity}}</span>
-        <Button type="primary" shape="circle" icon="md-add" @click="addQuantity()"></Button>
-        </div>
+        <Button class="btn"  icon="md-add" @click="addQuantity()"></Button>
+        </Card>
       </div>
       <footer>
          <Button type="success" long @click="addtoCart(item)">
@@ -303,12 +303,20 @@ export default {
     padding: 24px;
 }
 .quantity{
-    font-size: 16px;
+    font-size: 28px;
     font-weight: bold;
     text-align: center;
     align-content: center;
     align-self: center;
-    padding: 2px 8px 4px 8px;
+    margin-top: 8px;
+    padding: 4px 20px 1px 20px;
+}
+.btn{
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    align-content: center;
+    align-self: center;
 }
 footer{
     width: 100vw;

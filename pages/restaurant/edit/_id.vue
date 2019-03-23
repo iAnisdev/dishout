@@ -42,7 +42,7 @@
                      </div>
                      </Upload>
             </FormItem>
-            <Button type="success" long>Update Restaurant</Button>
+            <Button type="success" long @click="updateRest()">Update Restaurant</Button>
          </Form>
       </div>
       <footer class="footer">
@@ -67,44 +67,14 @@
                      <Icon type="ios-filing" />
                      Menu list
                   </template>
-                  <MenuItem name="1-1"   @click.native="addmenuPopup()">
-                  <Icon type="md-add" />
-                     Add New menu
-                  </MenuItem>
-                  <MenuItem name="1-2" :to="`./menu/${rest.id}`">
+                  <MenuItem name="1-1" :to="`./menu/${rest.id}`">
                 <Icon type="md-create" />
                      Update Menu
-                  </MenuItem>
-               </Submenu>
-                <Submenu name="2">
-                  <template slot="title">
-                     <Icon type="ios-filing" />
-                     Item List
-                  </template>
-                  <MenuItem name="2-1" to="./order/list">
-                  <Icon type="md-add" />
-                     Add New Item
-                  </MenuItem>
-                  <MenuItem name="2-2" to="./order/list">
-                <Icon type="md-create"/>
-                     Update Item
                   </MenuItem>
                </Submenu>
             </Menu>
          </div>
       </Drawer>
-      <Modal
-        v-model="addMenu"
-        title="Add New Menu"
-        @on-ok="newMenu()"
-        @on-cancel="cancel()">
-         <Form label-position="top">
-        <FormItem label="Menu Name">
-            <Input v-model="newMenuName"></Input>
-        </FormItem>
-        
-    </Form>
-    </Modal>
    </section>
 </template>
 
@@ -118,8 +88,6 @@ export default {
         return {
             drawer: false,
             rest: {},
-            addMenu: false,
-            newMenuName: ''
         }
     },
     computed: {
@@ -131,56 +99,56 @@ export default {
         ...mapActions({
             getSpecificRest: 'getSpecificRest',
             clearSpecificRest: 'clearSpecificRest',
-            addNewMenu: 'addNewMenu'
+            updateSpecificRest: 'updateSpecificRest'
         }),
-        addmenuPopup(){
-           this.drawer = false
-           this.addMenu = true
-        },
-            handleSuccess (res, file) {
-                file.url = 'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar';
-                file.name = '7eb99afb9d5f317c912f08b5212fd69a';
-            },
-            handleFormatError (file) {
-                this.$Notice.warning({
-                    title: 'The file format is incorrect',
-                    desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
-                });
-            },
-            handleMaxSize (file) {
-                this.$Notice.warning({
-                    title: 'Exceeding file size limit',
-                    desc: 'File  ' + file.name + ' is too large, no more than 2M.'
-                });
-            },
-            handleBeforeUpload () {
-                const check = this.uploadList.length < 5;
-                if (!check) {
-                    this.$Notice.warning({
-                        title: 'Up to five pictures can be uploaded.'
-                    });
-                }
-                return check;
-            },
-            newMenu(){
-               let that = this
-               let data = {
-                  name: that.newMenuName,
-                  restaurant: that.rest.name
+         handleSuccess (res, file) {
+               file.url = 'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar';
+               file.name = '7eb99afb9d5f317c912f08b5212fd69a';
+         },
+         handleFormatError (file) {
+               this.$Notice.warning({
+                  title: 'The file format is incorrect',
+                  desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
+               });
+         },
+         handleMaxSize (file) {
+               this.$Notice.warning({
+                  title: 'Exceeding file size limit',
+                  desc: 'File  ' + file.name + ' is too large, no more than 2M.'
+               });
+         },
+         handleBeforeUpload () {
+               const check = this.uploadList.length < 5;
+               if (!check) {
+                  this.$Notice.warning({
+                     title: 'Up to five pictures can be uploaded.'
+                  });
                }
-               that.addNewMenu(data)
-               that.newMenuName = ''
-            },
-            cancel(){
+               return check;
+         },
+         cancel(){
 
-            },
-            goBack(){
-               this.$router.back()
+         },
+         updateRest(){
+            let that = this
+            let data = {
+               name: that.rest.name,
+               description:that.rest.description,
+               stripe_code: that.rest.stripe_code,
+               banner_img_url: that.rest.banner_img_url,
+               id: that.rest.id,
+               that: that
             }
+            that.updateSpecificRest(data)
+         },
+         goBack(){
+            this.$router.back()
+         }
     },
     watch: {
        loadRest ( newVal , oldVal) {
           let that = this
+          console.log(newVal , oldVal)
           if(newVal){
              that.rest = that.loadRest
           }

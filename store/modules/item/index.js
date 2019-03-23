@@ -3,10 +3,6 @@ import getters from './getters';
 import mutations from './mutations';
 
 const defaultState = {
-  restaurants: [],
-  specificRest: {},
-  item: {},
-  group: {}
 }
 
 const inBrowser = typeof window !== 'undefined';

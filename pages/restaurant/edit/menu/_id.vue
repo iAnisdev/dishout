@@ -3,21 +3,25 @@
       <Menu mode="horizontal" :theme="'light'" active-name="1">
          <span class="container--row">
             <Icon type="md-arrow-round-back" size="24" class="icon--back" @click="goBack()"/> 
-            <h4>Edit {{rest.name}}</h4>
+            <h4>Edit {{rest.name}} Menu</h4>
             <h4>
                <Icon size="24"  @click="drawer = true" type="ios-menu" />
             </h4>
          </span>
       </Menu>
       <div class="content">
-         <div v-for="menu in rest.menus" :key="menu.id">
-            <h3><u>{{menu.name}}</u></h3>
+         <div class="menu menu_a" v-for="menu in rest.menus" :key="menu.id">
+            <div class="row">
+               <h2>{{menu.name}}</h2>
+            <div>
+                <Button type="success" @click="addMenuModal(menu)">Add Group</Button>
+                <Button type="info"  @click="editGroupModal(menu)">Edit Menu</Button>  
+              <!-- <Icon type="md-trash" size="24" color="#ff0000" @click="deleteGroupModal(menu)"/>-->
+            </div> 
+            </div>
             <div v-for="group in menu.groups" :key="group.id">
-               <div class="menu">
-                  <div class="row-end">
-                     <Icon type="md-trash" size="20" color="#ff0000" @click="deleteModal(group)"/>
-                     <Icon type="md-create" size="20" @click="editModal(group)"/>
-                  </div>
+              <nuxt-link :to="`../group/${group.id}`">
+                  <div class="menu">
                   <ul class="order">
                      <li class="row">
                         Menu Name:
@@ -39,6 +43,8 @@
                      </li>
                   </ul>
                </div>
+              </nuxt-link>
+               <Divider />
             </div>
          </div>
       </div>
@@ -73,23 +79,10 @@
                      Update Menu
                   </MenuItem>
                </Submenu>
-                <Submenu name="2">
-                  <template slot="title">
-                     <Icon type="ios-filing" />
-                     Item List
-                  </template>
-                  <MenuItem name="2-1" to="./order/list">
-                  <Icon type="md-add" />
-                     Add New Item
-                  </MenuItem>
-                  <MenuItem name="2-2" to="./order/list">
-                <Icon type="md-create"/>
-                     Update Item
-                  </MenuItem>
-               </Submenu>
             </Menu>
          </div>
       </Drawer>
+      <!-- Menu -->
       <Modal
         v-model="addMenu"
         title="Add New Menu"
@@ -103,21 +96,32 @@
     </Form>
     </Modal>
       <Modal
-        v-model="editMenu"
-        title="Update Menu"
+        v-model="editGroup"
+        title="Update Menu Group"
         ok-text="update"
-        @on-ok="updateMenu()"
+        @on-ok="updateMenuGroup()"
         @on-cancel="cancel()">
         <Form label-position="top">
         <FormItem label="Menu Name">
-            <Input v-model="targetMenu.name"></Input>
-        </FormItem>
-        <FormItem label="Menu Status">
-              <Checkbox v-model="targetMenu.active" size="large">Active</Checkbox>
+            <Input v-model="targetGroup.name"></Input>
         </FormItem>
     </Form>
     </Modal>
-
+    <!--Menu Group -->
+    <Modal
+        v-model="addMenugrp"
+        title="Add New Menu"
+        @on-ok="addMenuGroup()"
+        @on-cancel="cancel()">
+         <Form label-position="top">
+        <FormItem label="Menu Name">
+            <Input v-model="newMenuGroup"></Input>
+        </FormItem>
+        <FormItem label="Menu Status">
+              <Checkbox v-model="isActive" size="large">Active</Checkbox>
+        </FormItem>
+    </Form>
+    </Modal>
    </section>
 </template>
 
@@ -133,9 +137,12 @@ export default {
             rest: {},
             addMenu: false,
             newMenuName: '',
-            editMenu: false,
-            targetMenu: {},
-            status: '',
+            targetMenuGroup: {},
+            targetGroup: {},
+            editGroup: false,
+            newMenuGroup: '',
+            addMenugrp: false,
+            isActive: true
         }
     },
     computed: {
@@ -147,7 +154,10 @@ export default {
         ...mapActions({
             getSpecificRest: 'getSpecificRest',
             clearSpecificRest: 'clearSpecificRest',
-            addNewMenu: 'addNewMenu'
+            addNewMenu: 'addNewMenu',
+            updateSpecificMenu: 'updateSpecificMenu',
+            deleteSpecificMenu: 'deleteSpecificMenu',
+            addNewMenuGroup: 'addNewMenuGroup'
         }),
         addmenuPopup(){
            this.drawer = false
@@ -162,26 +172,50 @@ export default {
             that.addNewMenu(data)
             that.newMenuName = ''
         },
+        addMenuModal(menu){
+           let that = this 
+           that.targetMenuGroup = menu
+           that.addMenugrp = true
+        },
+        addMenuGroup(){
+           let that = this 
+           let data = {
+              name: that.newMenuGroup,
+              menu: that.targetMenuGroup.id,
+              active: that.isActive,
+              that: that,
+              restId: this.$route.params.id
+           }
+           that.addNewMenuGroup(data)
+        },
         cancel(){
 
         },
-        editModal(group){
-           this.targetMenu = group
-           this.editMenu = true,
-           this.status = this.targetMenu.active
+        editGroupModal(menu){
+           this.targetGroup = menu
+           this.editGroup = true
         },
-        updateMenu(){
-        },
-         deleteModal(menu){
+        deleteGroupModal(menu){
+           let that = this
            this.$Modal.error({
             title: 'Delete Menu',
-            content: `Are you sure to delete ${menu.name} menu?`,
-            okText: 'Delete Menu',
+            content: `Are you sure to delete <b>${menu.name}</b> menu group?`,
+            okText: 'Delete',
             closable: true,
             onOk: () => {
-               this.$Message.info('Clicked ok');
+               that.deleteSpecificMenu({id : menu.id})
             },
          });
+        },
+        updateMenuGroup() {
+           let that = this 
+           let data = {
+              id: that.targetGroup.id,
+              name: that.targetGroup.name,
+              restaurant: that.targetGroup.restaurant,
+           }
+           that.updateSpecificMenu(data)
+           that.targetGroup = {}
         },
       goBack(){
          this.$router.back()
@@ -222,9 +256,10 @@ export default {
   background-color: white;
   border-radius: 5px;
   padding: 1vh 5vw  1vh 5vw;
+}
+.menu_a{
   box-shadow: 1px 1px 1px 1px #d3d3d3;
 }
-
 ul , ol {
     list-style-type: none;
 }

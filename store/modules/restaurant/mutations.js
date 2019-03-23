@@ -21,5 +21,8 @@ export default {
     },
     clear_item: (state) => {
         state.item = {}
-    }
+    },
+    set_group: (state , group) => {
+      state.group = group
+    },
 }

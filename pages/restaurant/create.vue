@@ -16,6 +16,9 @@
         <FormItem label="Description">
             <Input v-model="rest.descp" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter Restaurant description" />
         </FormItem>
+        <FormItem label="Stripe Code">
+            <Input v-model="rest.stripe_code" />
+        </FormItem>
         <Upload
         type="drag"
         action="//jsonplaceholder.typicode.com/posts/">
@@ -84,7 +87,8 @@ export default {
             drawer: false,
             rest: {
                 name: '',
-                descp: ''
+                descp: '',
+                stripe_code: ''
             }
         }
     },
@@ -102,8 +106,8 @@ export default {
                 //owner: 6,
                 name: that.rest.name,
                 description: that.rest.descp,
-                stripe_code: '---',
-                banner_img_url: '',
+                stripe_code: that.rest.stripe_code,
+                banner_img_url: 'https://static.iris.net.co/semana/upload/images/2014/10/31/407544_104518_1.jpg',
                 that: that
             }
             that.addNewRestaurant(data)

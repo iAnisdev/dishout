@@ -107,8 +107,8 @@ export default {
            }
             this.$Modal.confirm({
                     title: 'Delete',
-                    content: `Are you sure to delete ${rest.name} restaurant`,
-                    width: '350px',
+                    content: `Are you sure to delete ${rest.name}`,
+                    width: '200.px',
                     onOk: () => {
                        this.deleteRest(data)
                     },

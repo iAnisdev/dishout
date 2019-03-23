@@ -24,11 +24,6 @@ export default {
         return this.cart.length > 0
     }
     },
-    watch: {
-        cart(newVal){
-            console.log('changed' , newVal)
-        }
-    }
 }
 </script>
 <style scoped>

@@ -1,6 +1,6 @@
 <template>
    <div class="page">
-    <Icon type="md-arrow-round-back" size="36" class="icon--back" @click="goBack()"/> 
+    <Icon type="md-arrow-round-back" size="36" class="icon--back" color="#ffffff" @click="goBack()"/> 
       <div class="text-center">
          <img class="bg--image" :src="loadRest.banner_img_url"/>
       </div>
@@ -39,15 +39,15 @@
       </Card>
       </div>
       <Divider />
-      <div class="container">
+      <div class="container" v-if="menus.length">
         <div class="container-select"  v-for="(menus , index) in loadRest.menus" :key="index">
             <Select v-model="menuGroup" size="large" style="width:100px;" >
                 <Option v-for="group in menus.groups" :key="group.id" :value="group.name" >{{ group.name }}</Option>
             </Select>
         </div>
       </div>
-      <Divider />
-     <div class="container"  >
+      <Divider  v-if="menus.length"/>
+     <div class="container" v-if="menus">
          <div v-for="menu in menus" :key="menu.id">
         <div v-if="menu.name == menuGroup">
             <div v-if="menu.items.length">
@@ -120,16 +120,17 @@ export default {
     },
     watch: {
         loadRest(newVal , oldVal) {
+            console.log(newVal , oldVal)
             let that = this
             if(newVal){
                if(newVal.menus.length){
                     newVal.menus.forEach(group => {
                     group.groups.forEach(menu => {
                         that.menus.push(menu)
+                        that.menuGroup = that.menus[0].name
+                        that.menuId = that.menus[0].id
                     })
                 });
-                that.menuGroup = that.menus[0].name
-                that.menuId = that.menus[0].id
                }
             }
         },
@@ -162,8 +163,6 @@ export default {
     max-width: 100vw;
     min-height: 100vh;
    font-family: 'Product Sans';
-}
-.bg-gradient{
     background: linear-gradient(#f5f5f5 , #f6f6f6 , #f7f7f7 , #f8f8f8 , #f9f9f9 , #fafafa , #fbfbfb , #fcfcfc , #fdfdfd ,#fefefe , #ffffff);
 }
 .resInfo{
@@ -229,7 +228,7 @@ ivu-select-selection {
 .icon--back{
     position: absolute;
     left: 0;
-    padding: 24px;
+    padding: 10px;
 }
 .ivu-divider-horizontal{
     margin: 12px 0;
