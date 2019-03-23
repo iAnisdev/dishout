@@ -57,5 +57,16 @@ export default {
       },
    clearItem: ({commit} ) => {
     commit('clear_item')
+   },
+   addNewMenu: ({commit} , data) => {
+      let  headers = {
+      'Authorization': 'Token 5822cd005a14cf7212bffb51c2bab69d87460dae',
+      'Content-Type': 'application/json'
+      }
+      Api().post('/menu' , data , {headers: headers}).then((res) => {
+         console.log(res)
+      }).catch((err) => {
+         console.log(err)
+      })
    }
 }

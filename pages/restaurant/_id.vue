@@ -16,29 +16,26 @@
                 <Icon type="md-create" size="24" />
                 </nuxt-link>
             </div>
-                             
-
-         <!--
-            <Row class="row">
-                <Tag >American</Tag>
-                <Tag >Fast food</Tag>
-                <Tag >Pizza</Tag>
-                <Tag >Burger</Tag>
-            </Row>
-            -->
-            <Row class="row">
-            <Col>
-                <Icon type="md-time" size="24"/>
-                <Badge :text="'15-25 min'"  type="success"></Badge>
-            </Col>
             <!--
-            <Col style="margin-left: 2px;">
-                <Icon type="ios-star" size="24" color="#FFD300"/>
-                <span>4.6 (200)</span>
-            </Col>
+                <Row class="row">
+                    <Tag >American</Tag>
+                    <Tag >Fast food</Tag>
+                    <Tag >Pizza</Tag>
+                    <Tag >Burger</Tag>
+                </Row>
             -->
+            <Row class="row">
+                <Col>
+                    <Icon type="md-time" size="24"/>
+                    <Badge :text="'15-25 min'"  type="success"></Badge>
+                </Col>
+                <!--
+                    <Col style="margin-left: 2px;">
+                        <Icon type="ios-star" size="24" color="#FFD300"/>
+                        <span>4.6 (200)</span>
+                    </Col>
+                -->
             </Row>
-
       </Card>
       </div>
       <Divider />
@@ -174,7 +171,7 @@ export default {
     display: flex;
     justify-content: center;
     margin: auto;
-    margin-top: -8vh;
+    margin-top: -10vh;
     box-shadow: 1px 1px 1px 1px #d3d3d3;
 }
 ivu-select-selection {
@@ -213,7 +210,6 @@ ivu-select-selection {
     flex-direction: row;
     justify-content: space-between;
 }
-
 .container{
     width: 86%;
     display: flex;
