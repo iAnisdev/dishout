@@ -6,7 +6,7 @@
       </Menu>
       <div class="container">
          <div>
-            <h3>{{orderRest}}</h3>
+            <h2>{{orderRest}}</h2>
             <div v-for="item in cart" :key="item.id">
                <Card :bordered="false">
                   <Row type="flex" justify="space-between" class="code-row-bg">

@@ -11,6 +11,16 @@ export default {
             console.log(err)
         })
     },
+    deleteSpecificItem: ({commit} , data) =>{
+        let that = data.that 
+        delete data.that
+        Api().delete(`/menu_item/${data.id}` ,).then((res) => {
+            that.$Message.success(`Item deleted`);
+            that.goBack()
+        }).catch((err) => {
+            console.log(err)
+        })
+    },
     addRadioGroup: ({commit} , data) =>{
         let that = data.that 
         delete data.that 
@@ -21,13 +31,43 @@ export default {
             console.log(err)
         })
     },
+    deleteRadioGroup: ({commit} , data) =>{
+        let that = data.that 
+        delete data.that 
+        Api().delete(`/radio_group/${data.id}`).then((res) => {
+            that.$Message.success(`Option group Deleted`);
+            that.loadData()
+        }).catch((err) => {
+            console.log(err)
+        })
+    },
     addRadioItem: ({commit , dispatch} , data) =>{
         let that = data.that 
-        let restId = data.restId
         delete data.that 
-        delete data.restId
-        Api().post('/radio_item/' , JSON.stringify(data)).then((res) => {
+        console.log(data)
+        Api().post('/radio_item/' , data).then((res) => {
             that.$Message.success(`New option ${res.data.name} added`);
+            that.loadData()
+        }).catch((err) => {
+            console.log(err)
+        })
+    },
+
+    deleteRadioItem: ({commit , dispatch} , data) =>{
+        let that = data.that 
+        delete data.that 
+        Api().delete(`/radio_item/${data.id}`).then((res) => {
+            that.$Message.success(`option Deleted`);
+            that.loadData()
+        }).catch((err) => {
+            console.log(err)
+        })
+    },
+    deleteItemOption: ({commit , dispatch} , data) =>{
+        let that = data.that 
+        delete data.that 
+        Api().delete(`/item_option/${data.id}`).then((res) => {
+            that.$Message.success(`option Deleted`);
             that.loadData()
         }).catch((err) => {
             console.log(err)

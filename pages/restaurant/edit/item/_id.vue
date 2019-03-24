@@ -12,21 +12,32 @@
       <div class="content">
       <div >
       <Card :bordered="false">
-        <div class="">
+        <Row>
+           <Col span="22">
              <h1>{{item.name}}</h1>
             <h3> ${{item.price}}</h3>
             <p class="text-justify">{{item.description}}</p>
-        </div>
+            </Col>
+            <Col span="2">
+               <Icon type="md-trash" size="24" color="#ff0000" @click="deleteItem(item)"/>
+            </Col>
+        </Row>
       </Card>
          <div v-for="group in item.radio_option_groups" :key="group.id">
             <Card style="margin-top: 2vh" :bordered="false">
                    <p slot="title">
-                  {{group.description}}
+                  {{group.description}} 
                </p>
                <p  slot="extra">
+                        <Icon type="md-trash" size="24" color="#ff0000" @click="deleteGroup(group)"/>
                <Button type="info" @click="modifierItemModal = true , radio_group = group">Add Option</Button></p>
                <div v-for="option in group.options" :key="option.id" >
+                     <div class="row">
                      <h4 class="option">{{option.name}}</h4>
+                        <div>
+                        <Icon type="md-trash" size="24" color="#ff0000" @click="deleteRadio(option)"/>
+                        </div>
+                     </div>
                   <Divider />
                </div>
             </Card>
@@ -36,10 +47,17 @@
                <p  slot="extra">
                <Button type="info" @click="optionItemModal = true">Add Option</Button></p>
             <div  v-for="option in item.options" :key="option.id">
-                  <div class="row">
+               <Row>
+                  <Col span="12">
                         <h4 class="option">{{option.name}}</h4>
+                  </Col>
+                  <Col span="8">
                   <h4>+${{option.price}}</h4>
-                  </div>
+                  </Col>
+                  <Col span="4">
+                  <Icon type="md-trash" size="24" color="#ff0000" @click="deleteOption(option)"/>
+                  </Col>
+               </Row>
                <Divider />
             </div>
          </Card>
@@ -245,7 +263,11 @@ export default {
             getSpecificItem: 'getSpecificItem',
             addRadioGroup: 'addRadioGroup',
             addRadioItem: 'addRadioItem',
-            addOptionItem: 'addOptionItem'
+            addOptionItem: 'addOptionItem',
+            deleteRadioItem: 'deleteRadioItem',
+            deleteItemOption: 'deleteItemOption',
+            deleteRadioGroup: 'deleteRadioGroup',
+            deleteSpecificItem: 'deleteSpecificItem'
         }),
          handleSuccess (res, file) {
                file.url = 'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar';
@@ -300,7 +322,6 @@ export default {
                let data = that.modifierItem
                data.group = that.radio_group.id
                data.that = that
-               data.restId = this.$route.params.id
                that.addRadioItem(data)
                that.modifierItem = {
                name: '',
@@ -349,6 +370,66 @@ export default {
                   active: true
                }
             }
+         },
+         deleteRadio(option){
+            let that = this 
+            this.$Modal.error({
+               title: 'Delete option',
+               content: `Are you sure to delete ${option.name}`,
+               okText: 'Delete',
+               onOk: () => {
+                  let data = {
+                     that: that,
+                     id: option.id
+                  }
+                  that.deleteRadioItem(data)
+               }
+            });
+         },
+         deleteOption(option){
+            let that = this 
+            this.$Modal.error({
+               title: 'Delete option',
+               content: `Are you sure to delete ${option.name}`,
+               okText: 'Delete',
+               onOk: () => {
+                  let data = {
+                     that: that,
+                     id: option.id
+                  }
+                  that.deleteItemOption(data)
+               }
+            });
+         },
+         deleteGroup(group) {
+            let that = this 
+            this.$Modal.error({
+               title: 'Delete option Group',
+               content: `Are you sure to delete ${group.description}`,
+               okText: 'Delete',
+               onOk: () => {
+                  let data = {
+                     that: that,
+                     id: group.id
+                  }
+                  that.deleteRadioGroup(data)
+               }
+            });
+         },
+         deleteItem(item) {
+            let that = this 
+            this.$Modal.error({
+               title: 'Delete Item',
+               content: `Are you sure to delete ${item.name}`,
+               okText: 'Delete',
+               onOk: () => {
+                  let data = {
+                     that: that,
+                     id: item.id
+                  }
+                  that.deleteSpecificItem(data)
+               }
+            });
          },
          loadData(){
             let that = this

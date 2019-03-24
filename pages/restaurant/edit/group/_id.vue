@@ -20,7 +20,7 @@
                 </div>
                <div>
                 <Icon type="md-create" size="24"  color="#2d8cf0" @click="editModal = true"/>
-                <Icon type="md-trash" size="24" color="#ff0000" />
+                <Icon type="md-trash" size="24" color="#ff0000" @click="deleteMenuGroup(group)"/>
                </div>
             </div>
             <Divider />
@@ -172,7 +172,8 @@ export default {
         ...mapActions({
             getSpecificMenuGroup: 'getSpecificMenuGroup',
             updateSpecificMenuGroup: 'updateSpecificMenuGroup',
-            addSpecificItem: 'addSpecificItem'
+            addSpecificItem: 'addSpecificItem',
+            deleteSpecificMenuGroup: 'deleteSpecificMenuGroup'
         }),
          goBack(){
             this.$router.back()
@@ -217,6 +218,21 @@ export default {
                 active: false,
             }
             }
+        },
+        deleteMenuGroup(group){
+            let that = this 
+            this.$Modal.error({
+               title: 'Delete option',
+               content: `Are you sure to delete ${group.name}`,
+               okText: 'Delete',
+               onOk: () => {
+                  let data = {
+                     that: that,
+                     id: group.id
+                  }
+                  that.deleteSpecificMenuGroup(data)
+               }
+            });
         },
         refresh(){
         let that = this

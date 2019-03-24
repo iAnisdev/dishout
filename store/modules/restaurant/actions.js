@@ -71,6 +71,7 @@ export default {
       delete data.that
       Api().post('/menu/' , JSON.stringify(data)).then((res) => {
          that.$Message.success(`New Menu ${res.data.name} added`);
+         that.refresh()
       }).catch((err) => {
          console.log({err})
       })
@@ -85,9 +86,10 @@ export default {
    },
 
    deleteSpecificMenu: ({commit} , data) => {
-      console.log(data)
-      Api().delete('/menu/' , JSON.stringify(data)).then((res) => {
-         console.log(res)
+      let that = data.that
+      Api().delete(`/menu/${data.id}`).then((res) => {
+         that.$Message.success(`Menu deleted`);
+         that.refresh()
       }).catch((err) => {
          console.log(err)
       })
@@ -97,6 +99,17 @@ export default {
       delete data.that
       Api().get(`/menu_group/${data.id}`).then((res) => {
          commit('set_group' , res.data)
+      }).catch((err) => {
+         console.log({err})
+      })
+      that.$Spin.hide()
+   },
+   deleteSpecificMenuGroup: ({commit} , data) => {
+      let that = data.that
+      delete data.that
+      Api().delete(`/menu_group/${data.id}`).then((res) => {
+         that.$Message.success(`Menu Group deleted`);
+         that.goBack()
       }).catch((err) => {
          console.log({err})
       })

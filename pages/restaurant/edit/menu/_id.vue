@@ -218,7 +218,7 @@ export default {
             okText: 'Delete',
             closable: true,
             onOk: () => {
-               that.deleteSpecificMenu({id : menu.id})
+               that.deleteSpecificMenu({id : menu.id , that: that})
             },
          });
         },
@@ -234,6 +234,16 @@ export default {
         },
       goBack(){
          this.$router.back()
+      },
+      refresh(){
+         let that = this
+        let id = this.$route.params.id
+        let data = {
+            that,
+            id
+        }
+       this.$Spin.show();
+        that.getSpecificRest(data)
       }
     },
     watch: {

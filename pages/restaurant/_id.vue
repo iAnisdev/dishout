@@ -1,5 +1,6 @@
 <template>
-   <div class="page">
+  <section>
+       <div class="page">
     <Icon type="md-arrow-round-back" size="36" class="icon--back"  color="#2d8cf0" @click="goBack()"/> 
       <div class="text-center">
          <img class="bg--image" :src="loadRest.banner_img_url"/>
@@ -53,7 +54,7 @@
             <div v-if="menu.items.length">
                 <div v-for="item in menu.items" :key="item.id">
                 <nuxt-link :to="`../item/${item.id}?restaurant=${loadRest.name}&menu=${menuId}`" class="itemtab">
-                        <Card dis-hover :bordered="false" width="100%">
+                        <Card dis-hover :bordered="false"  style="width: 84vw;">
                             <Row class="row--justify">
                             <Col span="12">
                             <h2>{{item.name}}</h2>
@@ -78,9 +79,10 @@
         </div>
         </div>
    </div>
-      <cart />
       </div>
      </div>
+      <cart />
+  </section>
 </template>
 
 <script>
@@ -162,6 +164,7 @@ export default {
 .page{
     max-width: 100vw;
     min-height: 100vh;
+    padding-bottom: 10vh;
    font-family: 'Product Sans';
     background: linear-gradient(#f5f5f5 , #f6f6f6 , #f7f7f7 , #f8f8f8 , #f9f9f9 , #fafafa , #fbfbfb , #fcfcfc , #fdfdfd ,#fefefe , #ffffff);
 }
