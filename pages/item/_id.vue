@@ -20,6 +20,7 @@
                </p>
                <p  slot="extra" v-if="group.min_selectable && !selected"> <Tag color="default">Required</Tag></p>
                <p  slot="extra" v-if="group.min_selectable && selected"><Icon type="ios-checkmark-circle" color="#19be6b" size="24" /></p> 
+               <br>
                <RadioGroup v-model="modifier" vertical v-for="option in group.options" :key="option.id" >
                   <Radio :label="option.name" size="large">
                      <span class="option">{{option.name}}</span>
@@ -27,8 +28,10 @@
                   <Divider />
                </RadioGroup>
             </Card>
+         </div>
             <Card style="margin-top: 2vh" :bordered="false">
-               <p slot="title">condiments</p>
+               <h3 slot="title">Condiments</h3>
+               <br>
                <CheckboxGroup v-model="condiments" v-for="option in item.options" :key="option.id">
                   <Checkbox :label="option.name" size="large">
                      <h4 style="text-algn: left; left:0;">{{option.name}}</h4>
@@ -40,7 +43,6 @@
                   <Divider />
                </CheckboxGroup>
             </Card>
-         </div>
       </Card>
       <div class="row-center">
         <Card :bordered="false">
@@ -52,8 +54,8 @@
       <footer>
          <Button type="success" long @click="addtoCart(item)">
             <div class="justify-center">
-               <h2>Add 1 to cart</h2>
-               <h2>${{price || item.price}}</h2>
+               <h2>Add {{quantity}} to cart</h2>
+               <h2>${{price * quantity || item.price * quantity}}</h2>
             </div>
          </Button>
       </footer>
@@ -289,9 +291,10 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    align-self: center;
     align-content: center;
     align-items: center;
-    padding: 0px 3vw 0px 22vw;
+    padding: 0px 1vw 0px 30vw;
 }
 .head{
     background-color: #e8eaec;
@@ -324,7 +327,8 @@ footer{
     bottom: 0;
     color: white;
     background-color: #19be6b;
-    font-size: 32px;
+    font-size: 36px;
+    padding: 1vh auto 1vh auto;
     font-weight: bold;
 }
 </style>

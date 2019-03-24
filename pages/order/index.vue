@@ -31,8 +31,10 @@
          </div>
       </div>
       <footer @click="order()">
-             <h3>Place Order</h3>
-         <h3 style="margin-left: 8vw;">${{cartPrice}}</h3>
+           <div class="justify-center">
+             <h1>Place Order</h1>
+            <h1 >${{cartPrice}}</h1>
+           </div>
       </footer>
    </section>
 </template>
@@ -132,17 +134,22 @@ export default {
     align-items: center;
     justify-content: center;
 }
+.justify-center{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-self: center;
+    align-content: center;
+    align-items: center;
+    padding: 1vh 1vw 1vh 30vw;
+}
 footer{
     width: 100vw;
     position: fixed;
     bottom: 0;
     color: white;
     background-color: #19be6b;
+    padding: 1vh auto 1vh auto;
     font-weight: bold;
-    font-size: 16px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    padding: 8px 25vw 4vw 8px;
 }
 </style>

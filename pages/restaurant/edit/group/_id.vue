@@ -12,10 +12,28 @@
       <div class="content">
        <div class="menu menu_a">
             <div class="row">
-               <h1>{{group.name}}</h1>
+                <div>
+                <h1>{{group.name}}</h1>
+                <h2>Status: 
+                <Tag color="success" type="border" v-if="group.active">{{group.active | status}}</Tag>
+                <Tag color="error" type="border" v-if="!group.active">{{group.active | status}}</Tag></h2>
+                </div>
+               <div>
+                <Icon type="md-create" size="24"  color="#2d8cf0" @click="editModal = true"/>
+                <Icon type="md-trash" size="24" color="#ff0000" />
+               </div>
             </div>
             <Divider />
-            <h3>Items: </h3>
+                <div class="row">
+                <h2><b>Items: </b></h2>
+                <Button  @click.native="addItemModel = true">New Item</Button>
+                </div>
+                        <Card dis-hover :bordered="false" width="100%" v-if="!showItems">
+                        <Row class="row--justify">
+                            No items Yet
+                        </Col>
+                        </Row>
+                </Card>
              <div v-for="item in group.items" :key="item.id">
                <nuxt-link :to="`../item/${item.id}`" class="itemtab">
                     <Card dis-hover :bordered="false" width="100%">
@@ -135,11 +153,12 @@ export default {
             drawer: false,
            editModal: false,
            addItemModel: false,
+           showItems: false,
            item: {
                 name: '',
                 description: '',
                 price: '',
-                img_url: 'https://i.kinja-img.com/gawker-media/image/upload/s--l6rS3nZj--/c_scale,f_auto,fl_progressive,q_80,w_800/vcwkkj2ayw6eez1rbwdt.jpg',
+                img_url: 'https://www.kfc.com.au/sites/default/files/aloha/zinger_box.jpg',
                 active: false,
            }
         }
@@ -173,15 +192,41 @@ export default {
         },
         addNewItem(){
             let that = this
+            if(that.item.name == ''){
+               that.$Message.warning(`Item Name Required`);
+            }else  if(that.item.description == ''){
+               that.$Message.warning(`Item description Required`);
+            }else  if(that.item.price == ''){
+               that.$Message.warning(`Item price Required`);
+            }else {
             let data = {
                 name: that.item.name,
                 description: that.item.description,
                 price: that.item.price,
                 img_url: that.item.img_url,
                 active: that.item.active,
-                menu_group: that.group.id
+                menu_group: that.group.id,
+                that: that
             }
             that.addSpecificItem(data)
+            that.item = {
+                name: '',
+                description: '',
+                price: '',
+                img_url: 'https://www.kfc.com.au/sites/default/files/aloha/zinger_box.jpg',
+                active: false,
+            }
+            }
+        },
+        refresh(){
+        let that = this
+        let id = this.$route.params.id
+        let data = {
+            that,
+            id
+        }
+       this.$Spin.show();
+       that.getSpecificMenuGroup(data)
         }
     },
     mounted() {
@@ -194,6 +239,16 @@ export default {
        this.$Spin.show();
        that.getSpecificMenuGroup(data)
     },
+    watch: {
+        group(newVal , oldVal) {
+            let that = this
+            if(newVal.items.length){
+                that.showItems = true
+            }else{
+                that.showItems = false
+            }
+        }
+    }
 }
 </script>
 <style scoped>

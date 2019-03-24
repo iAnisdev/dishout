@@ -88,7 +88,8 @@ export default {
             rest: {
                 name: '',
                 descp: '',
-                stripe_code: ''
+                stripe_code: '',
+                banner_img_url: 'https://www.kfcjamaica.com/sites/default/files/2018-01/KFC_eComm_thumb_eComm_Zinger.jpg'
             }
         }
     },
@@ -101,16 +102,27 @@ export default {
         }),
         addRestaurant (){
             let that = this
+            if(that.rest.name == ''){
+               this.$Message.warning(`Name Required`);
+            }else if(that.rest.descp == ''){
+               this.$Message.warning(`Description Required`);
+            }else if(that.rest.stripe_code ==''){
+               this.$Message.warning(`Stripe Code required Required`);
+            }/*else if(that.rest.banner_img_url ==''){
+               this.$Message.warning(`Banner image Required`);
+            }*/else{
             that.$Spin.show();
             let data = {
                 //owner: 6,
                 name: that.rest.name,
                 description: that.rest.descp,
                 stripe_code: that.rest.stripe_code,
-                banner_img_url: 'https://static.iris.net.co/semana/upload/images/2014/10/31/407544_104518_1.jpg',
+                banner_img_url: that.rest.banner_img_url,
                 that: that
             }
             that.addNewRestaurant(data)
+
+            }
         }
     }
 }

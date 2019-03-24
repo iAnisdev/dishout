@@ -2,17 +2,21 @@ import Api from '@/plugins/Api'
 
 export default {
     addSpecificItem: ({commit} , data) =>{
-        console.log(data)
+        let that = data.that 
+        delete data.that
         Api().post('/menu_item/' , data).then((res) => {
-            console.log(res)
+            that.$Message.success(`Item ${res.data.name} added`);
+            that.refresh()
         }).catch((err) => {
             console.log(err)
         })
     },
     addRadioGroup: ({commit} , data) =>{
-        console.log(data)
+        let that = data.that 
+        delete data.that 
         Api().post('/radio_group/' , JSON.stringify(data)).then((res) => {
-            console.log(res)
+            that.$Message.success(`New Group ${res.data.description} added`);
+            that.loadData()
         }).catch((err) => {
             console.log(err)
         })

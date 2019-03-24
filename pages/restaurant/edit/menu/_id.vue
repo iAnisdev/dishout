@@ -10,13 +10,15 @@
          </span>
       </Menu>
       <div class="content">
+         <div class="menu menu_a" v-if="!rest.showMenu">
+               <h2>No Menu Yet</h2>
+         </div>
          <div class="menu menu_a" v-for="menu in rest.menus" :key="menu.id">
             <div class="row">
                <h2>{{menu.name}}</h2>
             <div>
-                <Button type="success" @click="addMenuModal(menu)">Add Group</Button>
-                <Button type="info"  @click="editGroupModal(menu)">Edit Menu</Button>  
-              <!-- <Icon type="md-trash" size="24" color="#ff0000" @click="deleteGroupModal(menu)"/>-->
+                <Icon type="md-create" size="24"  color="#2d8cf0"  @click="editGroupModal(menu)"/>
+                <Icon type="md-trash" size="24" color="#ff0000" @click="deleteGroupModal(menu)"/>
             </div> 
             </div>
             <div v-for="group in menu.groups" :key="group.id">
@@ -45,6 +47,9 @@
                </div>
               </nuxt-link>
                <Divider />
+            </div>
+            <div class="mt-4">
+               <Button type="default" long @click="addMenuModal(menu)">Add Group</Button>
             </div>
          </div>
       </div>
@@ -165,12 +170,17 @@ export default {
         },
         newMenu(){
             let that = this
+            if(that.newMenuName == ''){
+               that.$Message.warning(`Menu Name Required`);
+            }else{
             let data = {
                 name: that.newMenuName,
-                restaurant: that.rest.name
+                restaurant: that.rest.id,
+                that: that
             }
             that.addNewMenu(data)
             that.newMenuName = ''
+            }
         },
         addMenuModal(menu){
            let that = this 
@@ -178,7 +188,10 @@ export default {
            that.addMenugrp = true
         },
         addMenuGroup(){
-           let that = this 
+           let that = this
+           if(that.newMenuGroup == ''){
+               that.$Message.warning(`Menu Group Name Required`);
+           }else{
            let data = {
               name: that.newMenuGroup,
               menu: that.targetMenuGroup.id,
@@ -187,6 +200,8 @@ export default {
               restId: this.$route.params.id
            }
            that.addNewMenuGroup(data)
+           that.newMenuGroup = ''
+           }
         },
         cancel(){
 
@@ -225,6 +240,11 @@ export default {
        loadRest ( newVal , oldVal) {
           let that = this
           if(newVal){
+             if(newVal.menus.length){
+                newVal.showMenu = true
+             }else{
+                newVal.showMenu = false
+             }
              that.rest = that.loadRest
           }
        }
@@ -298,6 +318,9 @@ ul , ol {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+}
+.mt-4{
+   margin-top: 2vh;
 }
 .footer{
    bottom:0;

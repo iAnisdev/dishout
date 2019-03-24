@@ -93,7 +93,7 @@
       <Modal
         v-model="updateModal"
         title="Common Modal dialog box title"
-        ok-text="Update Restaurant"
+        ok-text="Update Item"
         @on-cancel="cancel">
             <Form :model="rest" label-position="top">
             <FormItem label="Item Name">
@@ -140,12 +140,19 @@
             <FormItem label="Description" class="input" >
           <Input v-model="modifierGroup.description"  placeholder="Item description" />
             </FormItem>
-            <FormItem label="Min selectable" class="input" >
-          <Input v-model="modifierGroup.min_selectable"  placeholder="min selectable" />
-            </FormItem>
-            <FormItem label="Max selectable" class="input" type="number" >
-          <Input v-model="modifierGroup.max_selectable"  placeholder="max selectable" />
-            </FormItem>
+             <Row>
+                <Col span="11">
+               <FormItem label="Min selectable" class="input" >
+                  <InputNumber :min="1" :step="1" v-model="modifierGroup.min_selectable" placeholder="Min selectable" ></InputNumber>
+               </FormItem>
+                </Col>
+                <Col span="2"><span style="color: #fff">-</span></Col>
+                <Col span="11">
+               <FormItem label="Max selectable" class="input">
+                  <InputNumber  :min="1" :step="1" v-model="modifierGroup.max_selectable" placeholder="Max selectable" ></InputNumber>
+               </FormItem>
+                </Col>
+            </Row>
         </Form>
       </Modal>
       <!--Add group item -->
@@ -156,13 +163,13 @@
       v-model="modifierItemModal">
         <Form label-position="top">
             <FormItem label="Name" class="input" >
-          <Input v-model="modifierItem.name"  placeholder="Name" />
+               <Input v-model="modifierItem.name"  placeholder="Name" />
             </FormItem>
             <FormItem label="Description" class="input" >
-          <Input v-model="modifierItem.description"  placeholder="description" />
+               <Input v-model="modifierItem.description"  placeholder="description" />
             </FormItem>
             <FormItem label="Status" class="input" type="number" >
-            <Checkbox v-model="modifierItem.active">Active</Checkbox>
+               <Checkbox v-model="modifierItem.active">Active</Checkbox>
             </FormItem>
         </Form>
       </Modal>
@@ -207,8 +214,8 @@ export default {
             radio_group: {},
             modifierGroup: {
                description: '',
-               min_selectable: 1,
-               max_selectable: 1,
+               min_selectable: null,
+               max_selectable: null,
             },
             modifierItem: {
                name: '',
@@ -270,17 +277,40 @@ export default {
          },
          addGroup(){
             let that = this 
+            if(that.modifierGroup.description == ''){
+               that.$Message.warning(`Group description Required`);
+            }else if(that.modifierGroup.min_selectable == null || that.modifierGroup.min_selectable < 0){
+               that.$Message.warning(`min selectable Required`);
+            }else if(that.modifierGroup.max_selectable == null || that.modifierGroup.max_selectable < 0){
+               that.$Message.warning(`max selectable Required`);
+            }else{
             let data = that.modifierGroup
+            data.that = that
             data.parent_item = that.item.id
             that.addRadioGroup(data)
+            }
          },
          addRItem(){
             let that = this
-            let data = that.modifierItem
-            data.group = that.radio_group.id
-            data.that = that
-            data.restId = this.$route.params.id
-            that.addRadioItem(data)
+            if(that.modifierItem.name == ''){
+               that.$Message.warning(`Name Required`);
+            }else if(that.modifierItem.description == ''){
+               that.$Message.warning(`description Required`);
+            }else{
+               let data = that.modifierItem
+               data.group = that.radio_group.id
+               data.that = that
+               data.restId = this.$route.params.id
+               that.addRadioItem(data)
+               that.modifierItem = {
+               name: '',
+               description: '',
+               price: 0.00,
+               img_url: '',
+               active: true,
+
+            }
+            }
          },
          updateRest(){
             let that = this
@@ -299,11 +329,26 @@ export default {
          },
          addOption(){
             let that = this
-            let data = that.option
-            data.that = that
-            data.restId = this.$route.params.id
-            data.parent_item = that.item.id
-            that.addOptionItem(data)
+            if(that.option.name == ''){
+               that.$Message.warning(`Name Required`);
+            } else if(that.option.description == ''){
+               that.$Message.warning(`description Required`);
+            }else if(that.option.price == ''){
+               that.$Message.warning(`Price Required`);
+            }else {
+               let data = that.option
+               data.that = that
+               data.restId = this.$route.params.id
+               data.parent_item = that.item.id
+               that.addOptionItem(data)
+               that.option = {
+                  name: '',
+                  description: '',
+                  price: '',
+                  img_url: '',
+                  active: true
+               }
+            }
          },
          loadData(){
             let that = this
@@ -369,6 +414,9 @@ export default {
     margin-top: -8vh;
     box-shadow: 1px 1px 1px 1px #d3d3d3;
     margin-top: -10vh;
+}
+.ivu-input-number {
+   width: 100%;
 }
 .content{
     padding: 1px 1vw 2vh 1vw;

@@ -21,12 +21,9 @@ export default {
     },
     placeOrder: ({commit} , data) => {
         let that = data.this
+        console.log(data)
         delete data.this
-        let  headers = {
-        'Authorization': 'Token 5822cd005a14cf7212bffb51c2bab69d87460dae',
-        'Content-Type': 'application/json'
-        }
-        Api().post('/order/', JSON.stringify(data)  , {headers : headers}).then((res) =>{
+        Api().post('/order/', JSON.stringify(data)).then((res) =>{
         if(res.status == 200){
             let order = res.data
             commit('set_order' , order)
@@ -40,11 +37,7 @@ export default {
         console.log('err is ' ,err.message))
     },
     getSpecificOrder:  ({commit} , data) => {
-        let  headers = {
-        'Authorization': 'Token 5822cd005a14cf7212bffb51c2bab69d87460dae',
-        'Content-Type': 'application/json'
-        }
-        Api().get('/order/'+data , {headers : headers}).then((res) =>{
+        Api().get('/order/'+data).then((res) =>{
         if(res.status == 200){
             let order = res.data
             order.Date = order.date.substring(8,10)
@@ -58,11 +51,7 @@ export default {
     },
 
     updateSpecificOrder:  ({commit} , data) => {
-        let  headers = {
-        'Authorization': 'Token 428e43d4f8fe445e1b505fc64ba79db2ad62846c',
-        'Content-Type': 'application/json'
-        }
-        Api().put('/order/', JSON.stringify(data) ,  {headers : headers}).then((res) =>{
+        Api().put('/order/', JSON.stringify(data)).then((res) =>{
         console.log(res)
         }
         ).catch((err) => 
@@ -70,11 +59,7 @@ export default {
     },
     getOrderList: ({commit} , data) => {
         let that = data
-        let  headers = {
-        'Authorization': 'Token 5822cd005a14cf7212bffb51c2bab69d87460dae',
-        'Content-Type': 'application/json'
-        }
-        Api().get('/order', {headers : headers}).then((res) =>{
+        Api().get('/order').then((res) =>{
             commit('set_order_list' , res.data)
             that.$Spin.hide()
         }

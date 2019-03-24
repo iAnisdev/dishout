@@ -131,6 +131,9 @@ export default {
          },
          updateRest(){
             let that = this
+            if(that.rest.name =='' || that.rest.description == '' || that.rest.stripe_code == '' || that.rest.banner_img_url == ''){
+               that.$Message.warning(`Name , description and stripe code rquired`);
+            }else{
             let data = {
                name: that.rest.name,
                description:that.rest.description,
@@ -140,6 +143,7 @@ export default {
                that: that
             }
             that.updateSpecificRest(data)
+            }
          },
          goBack(){
             this.$router.back()

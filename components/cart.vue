@@ -1,7 +1,7 @@
 <template>
    <nuxt-link to="/order">
         <footer v-if="show">
-            <h4 class="cart--button">View Cart</h4>
+            <h3 class="cart--button">View Cart</h3>
         <h2 class="cart--size">{{cartSize}}</h2>
     </footer>
    </nuxt-link>
@@ -39,7 +39,7 @@ footer{
     flex-direction: row;
     justify-content: space-around;
     font-size: 16px;
-    padding: 1vh 0px 1vh 30vw;
+    padding: 2vh 0px 2vh 30vw;
 }
 .row{
     display: flex;

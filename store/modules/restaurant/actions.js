@@ -22,6 +22,7 @@ export default {
    deleteRest: ({commit , dispatch} , data) => {
       let that = data.that
        Api().delete(`/restaurant/${data.id}`).then((res)=>{
+         that.$Message.success(`Restaurant Deleted`);
          dispatch('getAllRest')
        }).catch((err) => 
        console.log('err is ' ,err))
@@ -34,6 +35,7 @@ export default {
       let that = data.that 
       delete data.that
       Api().post('/restaurant/' , JSON.stringify(data)).then((res)=>{
+         that.$Message.success(`Restaurant ${res.data.name} added`);
         that.$router.push({path: `./${res.data.id}`});
       }
       ).catch((err) => 
@@ -68,7 +70,6 @@ export default {
       let that = data.that
       delete data.that
       Api().post('/menu/' , JSON.stringify(data)).then((res) => {
-         console.log(res)
          that.$Message.success(`New Menu ${res.data.name} added`);
       }).catch((err) => {
          console.log({err})

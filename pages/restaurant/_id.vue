@@ -1,6 +1,6 @@
 <template>
    <div class="page">
-    <Icon type="md-arrow-round-back" size="36" class="icon--back" color="#ffffff" @click="goBack()"/> 
+    <Icon type="md-arrow-round-back" size="36" class="icon--back"  color="#2d8cf0" @click="goBack()"/> 
       <div class="text-center">
          <img class="bg--image" :src="loadRest.banner_img_url"/>
       </div>
