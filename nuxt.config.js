@@ -16,7 +16,10 @@ module.exports = {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    ],
+    script: [
+      { src: 'https://connect.facebook.net/en_US/all.js' }
+    ],
   },
 
   /*
@@ -36,7 +39,9 @@ module.exports = {
   */
   plugins: [
     '@/plugins/iview',
-    '@/plugins/filters'
+    '@/plugins/filters',
+    '@/plugins/Api',
+    '@/plugins/fb'
   ],
 
   /*
