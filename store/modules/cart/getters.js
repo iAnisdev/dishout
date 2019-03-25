@@ -22,12 +22,12 @@ export default {
     getIPOrders: (state) => {
         let inOrder = []
         state.orderList.forEach((order) => {
-            if(order.status == "IN"){
-                order.Date = order.date.substring(8,10)
-                order.Month = order.date.substring(5,7)
-                order.time = order.date.substring (11,16)
-                inOrder.push(order)
-            }
+                if(order.status == "IN"){
+                    order.Date = order.date.substring(8,10)
+                    order.Month = order.date.substring(5,7)
+                    order.time = order.date.substring (11,16)
+                    inOrder.push(order)
+                }
         })
         return inOrder
     },

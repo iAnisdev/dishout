@@ -18,6 +18,8 @@
                            <div style="text-align:center">
                               <div class="row-end">
                                  <Icon type="md-create" size="24" @click="update(order)"/>
+                                 <!-- 
+                                 <Icon type="md-trash" size="24" color="#ff0000"  @click="deleteOrder(order)"/> -->
                               </div>
                               <nuxt-link :to="`../order/${order.id}`" >
                                  <ul class="order">
@@ -55,7 +57,7 @@
                <div class="container-fluid" v-if="!IPOrders.length">
                   <Card >
                      <div style="text-align:center">
-                        <h3>No in progress orders</h3>
+                        <h3>No Incoming orders</h3>
                      </div>
                   </Card>
                </div>
@@ -104,7 +106,7 @@
                <div class="container-fluid" v-if="!INOrders.length">
                   <Card >
                      <div style="text-align:center">
-                        <h3>No Incoming orders</h3>
+                        <h3>No in progress orders</h3>
                      </div>
                   </Card>
                </div>
@@ -257,7 +259,8 @@ export default {
     methods: {
         ...mapActions({
             getOrderList: 'getOrderList',
-            updateSpecificOrder: 'updateSpecificOrder'
+            updateSpecificOrder: 'updateSpecificOrder',
+            DeleteSpecificOrder: 'DeleteSpecificOrder'
         }),
         update (order) {
            this.updateModel = true,
@@ -283,8 +286,24 @@ export default {
               }
               that.updateSpecificOrder(data)
            }
-        }
+        },
+         deleteOrder(order){
+            let that = this 
+            this.$Modal.error({
+               title: 'Delete option',
+               content: `Are you sure to delete order with id ${order.id}`,
+               okText: 'Delete',
+               onOk: () => {
+                  let data = {
+                     that: that,
+                     id: order.id
+                  }
+                  that.DeleteSpecificOrder(data)
+               }
+            });
+         },
     },
+
     mounted(){
         let that = this
         that.$Spin.show()

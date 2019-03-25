@@ -1,7 +1,7 @@
 import Api from '@/plugins/Api'
 
 export default {
-    getCartFromLS: ({commit}) => {
+    getCartFromLS: ({commit} , data) => {
         commit('get_cart_from_LS')
     },
     addItemToCart: ({commit} , data) => {
@@ -21,9 +21,10 @@ export default {
     },
     placeOrder: ({commit} , data) => {
         let that = data.this
-        console.log(data)
         delete data.this
-        Api().post('/order/', JSON.stringify(data)).then((res) =>{
+        console.log(data)
+        Api().post('/order/', data).then((res) =>{
+            console.log(res)
         if(res.status == 200){
             let order = res.data
             commit('set_order' , order)
@@ -51,7 +52,16 @@ export default {
     },
 
     updateSpecificOrder:  ({commit} , data) => {
-        Api().put('/order/', JSON.stringify(data)).then((res) =>{
+        console.log(data)
+        Api().put(`/order/`, data).then((res) =>{
+        console.log(res)
+        }
+        ).catch((err) => 
+        console.log('err is ' ,err.message))
+    },
+
+    DeleteSpecificOrder:  ({commit} , data) => {
+        Api().delete(`/order/${data.id}`).then((res) =>{
         console.log(res)
         }
         ).catch((err) => 

@@ -42,9 +42,9 @@
       <Divider />
       <div class="container" v-if="menus.length">
         <div class="container-select"  v-for="(menus , index) in loadRest.menus" :key="index">
-            <Select v-model="menuGroup" size="large" style="width:100px;" >
-                <Option v-for="group in menus.groups" :key="group.id" :value="group.name" >{{ group.name }}</Option>
-            </Select>
+            <select  v-model="menuGroup" style="width:100px;" >
+            <option v-for="group in menus.groups" :key="group.id" :value="group.name" >{{ group.name }}</option>
+            </select>
         </div>
       </div>
       <Divider  v-if="menus.length"/>
@@ -53,8 +53,8 @@
         <div v-if="menu.name == menuGroup">
             <div v-if="menu.items.length">
                 <div v-for="item in menu.items" :key="item.id">
-                <nuxt-link :to="`../item/${item.id}?restaurant=${loadRest.name}&menu=${menuId}`" class="itemtab">
-                        <Card dis-hover :bordered="false"  style="width: 84vw;">
+                <nuxt-link :to="`../item/${item.id}?restaurant=${loadRest.name}&menu=${menuId}`">
+                        <Card dis-hover :bordered="false"  class="itemtab">
                             <Row class="row--justify">
                             <Col span="12">
                             <h2>{{item.name}}</h2>
@@ -238,7 +238,22 @@ ivu-select-selection {
 }
 .itemtab{
     color: #515a6e;
+  background: none;
     margin-top: 2vh;
 }
+
+select {
+    padding:3px;
+    margin: 0;
+    background: #f8f8f8;
+    color:black;
+    text-transform: capitalize;
+    font-weight: bold;
+    font-size: 16px;
+    border:none;
+    display: inline-block;
+    cursor:pointer;
+}
+
 </style>
 

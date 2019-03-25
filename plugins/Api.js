@@ -3,7 +3,7 @@ import axios from 'axios'
 export default () => {
     return axios.create({
         headers: {
-        'Authorization': 'Token 5822cd005a14cf7212bffb51c2bab69d87460dae',
+        'Authorization': 'Token 428e43d4f8fe445e1b505fc64ba79db2ad62846c',
         'Content-Type': 'application/json'
         },
         baseURL: 'https://www.dishout.io/api/v1'
