@@ -5,6 +5,7 @@ import mutations from './mutations';
 const defaultState = {
   restaurants: [],
   specificRest: {},
+  rest_img_url: '',
   item: {},
   group: {}
 }

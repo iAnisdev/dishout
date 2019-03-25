@@ -1,61 +1,59 @@
 <template>
-   <nuxt-link to="/order">
-        <footer v-if="show">
-            <h3 class="cart--button">View Cart</h3>
-        <h2 class="cart--size">{{cartSize}}</h2>
+  <nuxt-link to="/order">
+    <footer v-if="show">
+      <h3 class="cart--button">View Cart</h3>
+      <h2 class="cart--size">{{cartSize}}</h2>
     </footer>
-   </nuxt-link>
+  </nuxt-link>
 </template>
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions } from "vuex";
 export default {
-    data () {
-        return {
-            
-        }
-    },
-    computed: {
-       ...mapGetters({
-        cart: 'getCart',
-        cartPrice: 'cartPrice',
-        cartSize: 'cartSize'
+  data() {
+    return {};
+  },
+  computed: {
+    ...mapGetters({
+      cart: "getCart",
+      cartPrice: "cartPrice",
+      cartSize: "cartSize"
     }),
-    show(){
-        return this.cart.length > 0
+    show() {
+      return this.cart.length > 0;
     }
-    },
-}
+  }
+};
 </script>
 <style scoped>
-footer{
-    width: 100vw;
-    position: fixed;
-    font-family: 'Product Sans';
-    bottom: 0;
-    background-color: #19be6b;
-    color: white;
-    font-weight: bold;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    font-size: 16px;
-    padding: 2vh 0px 2vh 30vw;
+footer {
+  width: 100vw;
+  position: fixed;
+  font-family: "Product Sans";
+  bottom: 0;
+  background-color: #19be6b;
+  color: white;
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  font-size: 16px;
+  padding: 2vh 0px 2vh 30vw;
 }
-.row{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
-.cart--total{
-    align-self: center;
+.cart--total {
+  align-self: center;
 }
-.cart--button{
-    align-self: center;
+.cart--button {
+  align-self: center;
 }
-.cart--size{
-    border: 2px solid white;
-    padding: 1px 2vw;
-    align-self: center;
-    font-size: 12px;
+.cart--size {
+  border: 2px solid white;
+  padding: 1px 2vw;
+  align-self: center;
+  font-size: 12px;
 }
 </style>

@@ -3,6 +3,7 @@ import getters from './getters';
 import mutations from './mutations';
 
 const defaultState = {
+  item_img_url: ''
 }
 
 const inBrowser = typeof window !== 'undefined';

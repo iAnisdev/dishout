@@ -1,9 +1,9 @@
 import Vue from 'vue'
 
-Vue.filter('status' , function(val){
-    if(val){
+Vue.filter('status', function (val) {
+    if (val) {
         return 'Active'
-    }else{
+    } else {
         return 'Inactive'
     }
 })

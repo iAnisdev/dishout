@@ -8,7 +8,7 @@ const defaultState = {
     Menu: null
   },
   rest: '',
-  orderData:{},
+  orderData: {},
   isOrderd: false,
   orderList: []
 }
